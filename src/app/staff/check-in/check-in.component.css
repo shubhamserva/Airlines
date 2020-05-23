@@ -1,0 +1,52 @@
+.mat-checkbox {
+    margin: 5px;
+    padding: 8px;
+}
+.mat-grid-tile {
+    margin-top: 10px;
+    margin: 5px;
+    border: solid teal;
+}
+.text-inside-grid {
+    text-align: start;
+    left: 5px;
+}
+table {
+    margin-left: 10px;
+    width: 100%;
+}
+.example-card {
+    max-width: 180px;
+}
+.example-header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+}
+.dot {
+    height: 45px;
+    width: 45px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+}
+.dotSelected {
+    background-color: brown;
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+}
+.seatBox {
+    width: 32%;
+    margin:10px;
+    margin-left: 20px;
+    padding: 10px;
+    border: solid rgb(44, 6, 80);
+    display: flex;
+}
+
+p {
+    font-size: 14px;
+}

@@ -1,0 +1,11 @@
+<script src="https://apis.google.com/js/api.js"></script>
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <span class ='active'>{{title}}</span>
+      <span class="example-spacer"></span>
+      <a *ngIf = "! loginStatus">Login As :</a>
+      <img *ngIf= 'loginStatus' style="border-radius: 50%; height: 90%;"  src="{{this.userData.photoUrl }}">
+      <button mat-stroked-button style="margin-left:10px" *ngIf = "! loginStatus" (click) = "login('admin')">Admin </button>
+      <button mat-stroked-button style="margin-left:10px" *ngIf = "! loginStatus" (click) = "login('staff')" >Staff </button>
+      <button mat-stroked-button style="margin-left:10px" *ngIf = "loginStatus" (click) = logOut() >Logout </button>
+</mat-toolbar-row>

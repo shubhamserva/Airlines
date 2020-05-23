@@ -1,0 +1,26 @@
+<h1 mat-dialog-title>update Details {{data.Name}}</h1>
+<div mat-dialog-content>
+  <p>Passenger Name</p>
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input matInput [(ngModel)]="data.Name">
+  </mat-form-field>
+</div>
+<div mat-dialog-content>
+    <p>Passport Details</p>
+    <mat-form-field>
+      <mat-label>Enter Passport No.</mat-label>
+      <input matInput [(ngModel)]="data.passportNo">
+    </mat-form-field>
+  </div>
+  <div mat-dialog-content>
+    <p>Passenger Address </p>
+    <mat-form-field>
+      <mat-label>Write address here</mat-label>
+      <input matInput [(ngModel)]="data.address">
+    </mat-form-field>
+  </div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+</div>

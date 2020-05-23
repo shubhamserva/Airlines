@@ -1,0 +1,75 @@
+<div></div>
+<h3>Welcome to  : {{flightSeleted}}</h3>
+
+<mat-chip-list aria-label="Fish selection">
+    <button mat-raised-button color="primary"  style="margin-left: 10px;">Filters :   </button>
+
+    <mat-chip style="margin-left:10px" color="primary" [selected] = checkINFilter (click) = "filter($event,'checked')">Checked In</mat-chip>
+    <mat-chip style="margin-left:10px" color="warn" [selected] = notCheckINFilter  (click) = "filter($event,'nonChecked')">Non-Checked In</mat-chip>
+    <mat-chip color="primary" [selected] = wheelchairFilter (click) = "filter($event,'wheelchair')">WheelChair</mat-chip>
+    <mat-chip color="accent" [selected] = infantStatus (click) = "filter($event,'Infant')">Infant</mat-chip>
+  </mat-chip-list>
+
+<mat-divider style="margin: 10px;"></mat-divider> 
+
+
+<div class="parent" style="display: flex;">
+
+    <div class="table" style="width: 50%;">
+
+        <table mat-table *ngIf="dataSource" [dataSource]="dataSource | Filter : filterSelected  " class="mat-elevation-z8 " style=" margin-top:10px  ">
+
+            <!-- PNR Column -->
+            <ng-container matColumnDef="PNR">
+                <th mat-header-cell *matHeaderCellDef> PNR </th>
+                <td mat-cell *matCellDef="let element"> {{element.PNR}} </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="Name">
+                <th mat-header-cell *matHeaderCellDef> Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.pName}} </td>
+            </ng-container>
+
+            <!-- Service Column -->
+            <ng-container matColumnDef="Services">
+                <th mat-header-cell *matHeaderCellDef> Services </th>
+                <td mat-cell *matCellDef="let element"> {{element.Services}} </td>
+            </ng-container>
+
+            <!-- Seat No Column -->
+            <ng-container matColumnDef="SeatNo">
+                <th mat-header-cell *matHeaderCellDef> SeatNo. </th>
+                <td mat-cell *matCellDef="let element"> {{element.SeatNo}} </td>
+            </ng-container>
+
+            <!-- Seat No Column -->
+            <ng-container matColumnDef="Address">
+                <th mat-header-cell *matHeaderCellDef> Address </th>
+                <td mat-cell *matCellDef="let element"> {{element.Address}} </td>
+            </ng-container>
+
+            <!-- Update Button Column -->
+            <ng-container matColumnDef="ChangeSeat">
+                <th mat-header-cell *matHeaderCellDef>Change Seat </th>
+                <td mat-cell *matCellDef="let row"> <button (click)="ChangeSeat(row)">Change</button></td>
+            </ng-container>
+
+            <ng-container matColumnDef="EditServices">
+                <th mat-header-cell *matHeaderCellDef> Edit Services. </th>
+                <td mat-cell *matCellDef="let row"> <button (click)="addservice(row)">Update</button></td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+    <div class="seatBox" style="display: flex; flex-wrap: wrap;">
+        <div 
+         *ngFor="let RowNo of seats; let i=index" 
+        [ngClass] = "RowNo.Status === true ? 'dot' :'dotSelected' "
+        (click)="SeatSelected($event,RowNo.No)">
+            <p>{{RowNo.No}} </p>
+        </div>
+    </div>
+</div>

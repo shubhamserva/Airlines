@@ -1,0 +1,19 @@
+<div style="margin-left: 10px;">
+    <mat-form-field appearance="outline" style="padding: 0px;">
+      <mat-label >Select Flight</mat-label>
+      <mat-select (selectionChange)="selectedFlightInfo($event.value)">
+        <mat-option *ngFor="let flight of flightData" [value]="flight.fId">
+          {{flight.fId}} {{flight.fName}} {{flight.fTime}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div *ngIf = "flightNotSelectMsg" style="color: red;"> Please Select Flight First !!</div>
+
+<p> Please Select Flight Status: </p>
+
+<div> 
+    <button mat-stroked-button style="margin-left:10px" (click) = checkIn()>Check-In </button>
+    <button mat-stroked-button style="margin-left:10px" (click) = InFlight() >In-Flight </button>
+</div>

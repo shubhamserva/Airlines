@@ -1,0 +1,77 @@
+<div style="margin-left: 10px;">
+  <mat-form-field appearance="outline" style="padding: 0px;">
+    <mat-label>Select Flight</mat-label>
+    <mat-select (selectionChange)="selectedFlightInfo($event.value)">
+      <mat-option *ngFor="let flight of flightData" [value]="flight.fId">
+        {{flight.fId}} {{flight.fName}} {{flight.fTime}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-chip-list aria-label="Fish selection">
+    <button mat-raised-button color="primary"  style="margin-left: 10px;">Filters :   </button>
+
+    <mat-chip style="margin-left:10px" color="primary" [selected] = passportFStatus (click) = "filter($event,'passport')">Passport</mat-chip>
+    <mat-chip style="margin-left:10px" color="warn" [selected] = AddressFStatus  (click) = "filter($event,'address')">Address</mat-chip>
+    <mat-chip color="primary" [selected] = DOBFStatus (click) = "filter($event,'DOB')">DOB</mat-chip>
+  </mat-chip-list>
+
+<mat-divider style="margin: 10px;"></mat-divider> 
+</div>
+
+
+<div class="parent" style="display: flex;">
+
+  
+
+  <div class="table" style="width: 70%;">
+    <table mat-table  [dataSource]="dataSource | Filter : filterSelected" class="mat-elevation-z8 " style=" margin-top:20px  ">
+
+      <!-- PNR Column -->
+      <ng-container matColumnDef="PNR">
+        <th mat-header-cell *matHeaderCellDef> PNR </th>
+        <td mat-cell *matCellDef="let element"> {{element.PNR}} </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="Name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.pName}} </td>
+      </ng-container>
+
+      <!-- Service Column -->
+      <ng-container matColumnDef="Services">
+        <th mat-header-cell *matHeaderCellDef> Services </th>
+        <td mat-cell *matCellDef="let element"> {{element.Services}} </td>
+      </ng-container>
+
+      <!-- Seat No Column -->
+      <ng-container matColumnDef="SeatNo">
+        <th mat-header-cell *matHeaderCellDef> SeatNo. </th>
+        <td mat-cell *matCellDef="let element"> {{element.SeatNo}} </td>
+      </ng-container>
+
+      <!-- Seat No Column -->
+      <ng-container matColumnDef="Address">
+        <th mat-header-cell *matHeaderCellDef> Address </th>
+        <td mat-cell *matCellDef="let element"> {{element.Address}} </td>
+      </ng-container>
+
+      <!-- Update Button Column -->
+      <ng-container matColumnDef="EditInfo">
+        <th mat-header-cell *matHeaderCellDef> Edit Info. </th>
+        <td mat-cell *matCellDef="let row"> <button (click)="UpdatePDialog(row)" >Update</button></td>
+      </ng-container>
+
+      <ng-container matColumnDef="EditServices">
+        <th mat-header-cell *matHeaderCellDef> Edit Services. </th>
+        <td mat-cell *matCellDef="let row"> <button (click)="addservice(row)" >Update</button></td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <button mat-raised-button (click)="AddPDialog()">Add Passenger</button>
+
+  </div>
+</div>

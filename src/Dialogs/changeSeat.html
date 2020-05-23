@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Change Seat</h1>
+<div mat-dialog-content>
+  <p>Seat No</p>
+  <mat-form-field>
+    <mat-label>Seat No</mat-label>
+    <input matInput [(ngModel)]="data.SeatNo">
+  </mat-form-field>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+</div>
