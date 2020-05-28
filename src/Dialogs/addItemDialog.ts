@@ -1,14 +1,13 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { addServicesDialog } from 'src/models/addServicesDialog';
 @Component({
-    selector: 'UpdateService',
-    templateUrl: './updateService.html',
+    selector: 'AddItem',
+    templateUrl: './AddItemDialog.html',
   })
-  export class UpdateService {
+  export class AddItem {
   
     constructor(
-      public dialogRef: MatDialogRef<UpdateService>,
+      public dialogRef: MatDialogRef<AddItem>,
       @Inject(MAT_DIALOG_DATA) public data) { }
   
     onNoClick(): void {

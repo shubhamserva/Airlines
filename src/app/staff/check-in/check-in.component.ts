@@ -12,10 +12,9 @@ import { Pipe, PipeTransform } from '@angular/core';
   styleUrls: ['./check-in.component.css']
 })
 
-
-
 export class CheckInComponent implements OnInit {
 
+  SeatSelectMsg = true;
   seats: any = seat;
   flightSeleted;
   checkINFilter = false;
@@ -26,6 +25,11 @@ export class CheckInComponent implements OnInit {
   displayedColumns: string[] = ['PNR', 'Name', 'Services', 'SeatNo', 'ChangeSeat'];
   dataSource = undefined;
   filterDataSource;
+  checkInFlag = false;
+  previousSeat = null;
+  currentSeat = null;
+  seatStatus;
+  checkInPNR;
   filterList = [{ label: 'Passport', checked: false },
   { label: 'Address', checked: false },
   { label: 'DOB', checked: false }]
@@ -41,7 +45,6 @@ export class CheckInComponent implements OnInit {
     this.getPassengersDetails(this.flightSeleted);
   }
 
-
   getPassengersDetails(flightId) {
     this.service.getPassengers(flightId).subscribe((passengerDat: any) => {
       this.dataSource = passengerDat.data.result;
@@ -56,79 +59,102 @@ export class CheckInComponent implements OnInit {
 
     if (item == 'Infant') {
 
-      if(this.infantStatus ==true){
+      if (this.infantStatus == true) {
         this.infantStatus = !this.infantStatus;
         this.filterSelected = "NONE";
       }
-      else{
+      else {
         this.infantStatus = !this.infantStatus;
-      this.checkINFilter = false;
-      this.notCheckINFilter = false;
-      this.wheelchairFilter = false;
-      this.filterSelected = "Infant";
+        this.checkINFilter = false;
+        this.notCheckINFilter = false;
+        this.wheelchairFilter = false;
+        this.filterSelected = "Infant";
       }
     }
     else if (item == 'wheelchair') {
 
-      if(this.wheelchairFilter ==true){
+      if (this.wheelchairFilter == true) {
         this.wheelchairFilter = !this.wheelchairFilter;
         this.filterSelected = "NONE";
       }
-      else{
-      this.wheelchairFilter = !this.wheelchairFilter;
-      this.checkINFilter = false;
-      this.notCheckINFilter = false;
-      this.infantStatus = false;
-      this.filterSelected = "WheelChair";
+      else {
+        this.wheelchairFilter = !this.wheelchairFilter;
+        this.checkINFilter = false;
+        this.notCheckINFilter = false;
+        this.infantStatus = false;
+        this.filterSelected = "WheelChair";
       }
     }
     else if (item == 'nonChecked') {
 
-      if(this.notCheckINFilter ==true){
+      if (this.notCheckINFilter == true) {
         this.notCheckINFilter = !this.notCheckINFilter;
         this.filterSelected = "NONE";
       }
-      else{
-      this.notCheckINFilter = !this.notCheckINFilter;
-      this.checkINFilter = false;
-      this.wheelchairFilter = false;
-      this.infantStatus = false;
-      this.filterSelected = "NotChecked";
+      else {
+        this.notCheckINFilter = !this.notCheckINFilter;
+        this.checkINFilter = false;
+        this.wheelchairFilter = false;
+        this.infantStatus = false;
+        this.filterSelected = "NotChecked";
       }
     }
     else if (item == 'checked') {
-      if(this.checkINFilter ==true){
+      if (this.checkINFilter == true) {
         this.checkINFilter = !this.checkINFilter;
         this.filterSelected = "NONE";
       }
-      else{
-      this.checkINFilter = !this.checkINFilter;
-      this.notCheckINFilter = false;
-      this.wheelchairFilter = false;
-      this.infantStatus = false;
-      this.filterSelected = "Check_In_Status";
+      else {
+        this.checkINFilter = !this.checkINFilter;
+        this.notCheckINFilter = false;
+        this.wheelchairFilter = false;
+        this.infantStatus = false;
+        this.filterSelected = "Check_In_Status";
       }
     }
 
   }
   SeatSelected(event, item) {
-    (this.seats).find(p => p.No === item && (p.Status = !p.Status));
-    let data = new checkIn;
-    let PNR;
-    (this.dataSource).find(p => p.SeatNo === item && (PNR = p.PNR));
-    data.PNR = PNR;
-    data.SeatNo = item;
-    this.service.checkIn(data).subscribe();
+    if (this.checkInFlag == false) { }
+    else {
+      (this.seats).find(p => p.No === item && (this.seatStatus = p.Status));
+      if (this.seatStatus == true) {
+      }
+      else {
+        this.currentSeat = item;
+        (this.seats).find(p => p.No === item && (p.Status = !p.Status));
+        if (this.previousSeat == null) {
+          this.previousSeat = item;
+        }
+        else {
+          (this.seats).find(p => p.No === this.previousSeat && (p.Status = !p.Status));
+          this.previousSeat = item;
+        }
+      }
+    }
   }
   ChangeSeat(data) {
-    this.dialog.open(changeSeat, { width: "300px", data: {} }).afterClosed().subscribe((seatNo) => {
-      (this.dataSource).find(p => p.PNR === data.PNR && (p.SeatNo = seatNo.SeatNo));
-      let DBdata = new checkIn;
-      DBdata.PNR = data.PNR;
-      DBdata.SeatNo = seatNo.SeatNo;
-      this.service.changeSeat(DBdata).subscribe();
+    this.SeatSelectMsg = false;
+    this.checkInFlag = true;
+    (this.seats).find(p => p.No === data.SeatNo && (p.Status = !p.Status));
+    this.checkInPNR = data.PNR;
+  }
+  checkIn() {
+    this.SeatSelectMsg = false;
+    this.checkInFlag = true;
+  }
+  confirmSeat() {
+    console.log("confirm seat me aaya");
+    if (this.currentSeat != null) {
+      this.SeatSelectMsg = true;
+      this.checkInFlag = false;
+      let data = new checkIn;
+      data.PNR = this.checkInPNR;
+      data.SeatNo = this.currentSeat;
+      this.service.checkIn(data).subscribe(()=>{
+        this.getPassengersDetails(this.flightSeleted);
+      });
     }
-    )
   }
 }
 
@@ -138,13 +164,13 @@ export class Filter implements PipeTransform {
     if (!category) {
       return data2;
     }
-    if(category == 'NONE'){
+    if (category == 'NONE') {
       return data2;
     }
-    else if(category == 'NotChecked'){ 
+    else if (category == 'NotChecked') {
       return data2 ? data2.filter(data => data['' + category] == false) : [];
     }
-    else 
-    return data2 ? data2.filter(data => data['' + category] == true) : [];
+    else
+      return data2 ? data2.filter(data => data['' + category] == true) : [];
   }
 }

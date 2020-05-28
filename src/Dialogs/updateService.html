@@ -1,25 +1,12 @@
-<h1 mat-dialog-title>update Services </h1>
+<h1 mat-dialog-title>Update Service</h1>
 <div mat-dialog-content>
-  <p>Passenger Name</p>
+  <p>Service Name</p>
   <mat-form-field>
-    <mat-label>Name</mat-label>
-    <input matInput [(ngModel)]="data.Name">
+    <mat-label>Service Name</mat-label>
+    <input matInput [(ngModel)]="data.Services">
   </mat-form-field>
 </div>
-<div mat-dialog-content>
-    <p>Passport Details</p>
-    <mat-form-field>
-      <mat-label>Enter Passport No.</mat-label>
-      <input matInput [(ngModel)]="data.passportNo">
-    </mat-form-field>
-  </div>
-  <div mat-dialog-content>
-    <p>Passenger Address </p>
-    <mat-form-field>
-      <mat-label>Write address here</mat-label>
-      <input matInput [(ngModel)]="data.address">
-    </mat-form-field>
-  </div>
+
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">No Thanks</button>
   <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>

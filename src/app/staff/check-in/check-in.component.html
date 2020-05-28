@@ -12,6 +12,30 @@
 
 <mat-divider style="margin: 10px;"></mat-divider> 
 
+<div style="text-align: center; ;">
+<div >
+    <mat-form-field appearance="outline" >
+      <mat-label>Enter PNR</mat-label>
+      <input matInput placeholder="PNR" [(ngModel)] = 'checkInPNR' 
+      #checkInForm = 'ngModel'
+      required maxlength="6" minlength="6">
+    </mat-form-field>
+    <button mat-raised-button color="primary" 
+    [disabled]="checkInForm.invalid"
+    (click) = 'checkIn()' 
+    style="margin-left: 25px; margin-bottom: 30px;"> Check-In </button>
+
+    <button mat-raised-button color="primary" 
+    (click) = 'confirmSeat()' 
+    style="margin-left: 25px; margin-bottom: 30px;"> Confirm Seat </button>
+</div>
+<div>
+    
+</div>
+<p *ngIf ='! SeatSelectMsg'> Please Select Seat</p>
+</div>
+
+<mat-divider style="margin: 10px;"></mat-divider> 
 
 <div class="parent" style="display: flex;">
 
@@ -64,11 +88,12 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
     </div>
+
     <div class="seatBox" style="display: flex; flex-wrap: wrap;">
-        <div 
+        <div    
          *ngFor="let RowNo of seats; let i=index" 
-        [ngClass] = "RowNo.Status === true ? 'dot' :'dotSelected' "
-        (click)="SeatSelected($event,RowNo.No)">
+        [ngClass] = "RowNo.Status === true ? 'dot' :'dotSelected'"
+        (click)="SeatSelected($event,RowNo.No)" >   
             <p>{{RowNo.No}} </p>
         </div>
     </div>

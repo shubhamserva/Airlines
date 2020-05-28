@@ -4,10 +4,10 @@ import { url } from '../config/url'
 import {addPassengerDB} from '../models/addPassengerDB'
 import { addShopItem } from 'src/models/addShopItemDB';
 import { checkIn } from 'src/models/checkInDB';
+import { updateMealDB } from 'src/models/updateMealDB';
+import { addService } from 'src/models/addServiceModelDB';
+
 @Injectable({ providedIn: 'root' })
-// options: { headers?: HttpHeaders | { [header: string]: string | string[]; };
-//  observe?: "body"; params?: HttpParams | { [param: string]: string | string[]; };
-//   reportProgress?: boolean; responseType: "arraybuffer"; withCredentials?: boolean; })
 export class services {
     constructor(private http: HttpClient) { }
 
@@ -16,7 +16,7 @@ export class services {
 
     }
     getPassengers(flightId) {
-        console.log("Getting Details");
+        console.log("flight id 1",flightId)
         return this.http.get(url.getPassengers+'?flightId='+flightId );
     }
     deleteFlights(flightId){    
@@ -27,19 +27,29 @@ export class services {
         return this.http.post(url.addPassengers,passengerData);
     }
     updatePassengers(passengerData: addPassengerDB){
-        console.log("updating Passengers");
         return this.http.post(url.updatePassengers,passengerData);
     }
     addShoppingItem(data:addShopItem){
         return this.http.post(url.addShopItem,data);
     }
-    addServies(Servicedata:addShopItem){
+    addServies(Servicedata:addService){
         return this.http.post(url.addService,Servicedata);
     }
     checkIn(data:checkIn){
         return this.http.post(url.checkIn,data);
     }
-    changeSeat(data:checkIn){
-        return this.http.post(url.changeSeat,data);
+    updateMeal(data:updateMealDB){
+        return this.http.post(url.updateMeal,data);
+    }
+    getServices(flightInfo){
+        
+        return this.http.get(url.getServices+'?flightId='+flightInfo );
+    }
+    addAncillaryItems(data){
+        console.log("flight id 2",data)
+        return this.http.post(url.addAncillaryServices,data);
+    }
+    removeAncillaryItems(data){
+        return this.http.post(url.removeAncillaryItems,data);
     }
 }

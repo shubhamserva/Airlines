@@ -10,21 +10,24 @@
     <p>Passport Details</p>
     <mat-form-field>
       <mat-label>Enter Passport No.</mat-label>
-      <input matInput [(ngModel)]="data.PassportNo">
+      <input matInput [(ngModel)]="data.PassportNo" 
+      required maxlength="6" minlength="6">
     </mat-form-field>
   </div>
   <div mat-dialog-content>
     <p>Enter PNR</p>
     <mat-form-field>  
       <mat-label>Write PNR here</mat-label>
-      <input matInput [(ngModel)]="data.PNR">
+      <input matInput [(ngModel)]="data.PNR"
+      required maxlength="6" minlength="6">
     </mat-form-field>
   </div>
-  <div mat-dialog-content>
+  <div mat-dialog-content>  
     <p>Seat No.</p>
     <mat-form-field>
       <mat-label>Enter SeatNo</mat-label>
-      <input matInput [(ngModel)]="data.SeatNo">
+      <input matInput [(ngModel)]="data.SeatNo"
+      required maxlength="2" minlength="2">
     </mat-form-field>
   </div>
 

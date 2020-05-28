@@ -26,6 +26,7 @@ export class headerComponent implements OnInit {
       this.userData = user;
       this.store.select('auth').subscribe((data: any) => {
       this.loginStatus = (data.isAuthenticated);
+      
       });
       this.loggedIn = (user != null);
     });
