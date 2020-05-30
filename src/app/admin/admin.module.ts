@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { AdminComponent, Filter } from './adminComponent/admin.component';
 import{updateDialog} from '../../Dialogs/updateDialog';
 import{addPessDialog} from '../../Dialogs/addPessDialog';
-
 import {MatToolbarModule,MatDividerModule,MatFormFieldModule,MatSelectModule,
   MatIconModule,MatButtonModule,MatCheckboxModule,
   MatTableModule,MatGridListModule,MatDialogModule,
@@ -14,7 +13,6 @@ import { AdminRoutingModule } from './admin.routing.module';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatTreeModule} from '@angular/material/tree';
 import { AddItem } from 'src/Dialogs/addItemDialog';
-
 
 @NgModule({
   declarations: [AdminComponent,addPessDialog,updateDialog,AddService,Filter,AddItem],

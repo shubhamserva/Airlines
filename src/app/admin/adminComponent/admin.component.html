@@ -8,7 +8,9 @@
     </mat-select>
   </mat-form-field>
 
-  <mat-chip-list aria-label="Fish selection">
+  <div style="margin-bottom: 13px; color: red;" *ngIf = '!flightSelected '>Please Select Flight !!</div>
+
+  <mat-chip-list aria-label="Fish selection" [disabled] = '! flightSelected'>
     <button mat-raised-button color="primary"  style="margin-left: 10px;">Filters :   </button>
 
     <mat-chip style="margin-left:10px" color="primary" [selected] = passportFStatus (click) = "filter($event,'passport')">Passport</mat-chip>
@@ -19,12 +21,10 @@
 <mat-divider style="margin: 10px;"></mat-divider> 
 </div>
 
-
 <div class="parent" style="display: flex;">
 
-  
 
-  <div class="table" style="width: 70%;">
+  <div class="table" style="width: 70%; margin-left: 10px;">
     <table mat-table  [dataSource]="dataSource | Filter : filterSelected" class="mat-elevation-z8 " style=" margin-top:20px  ">
 
       <!-- PNR Column -->
@@ -68,78 +68,97 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-    <button mat-raised-button (click)="AddPDialog()">Add Passenger</button>
+    <button mat-raised-button (click)="AddPDialog()" [disabled] = '! flightSelected' style="margin: 10px;">Add Passenger</button>
 
   </div>
 
-  <div class="filters" style="width: 16%">
-    <mat-card class="example-card" style="padding: 8px; margin: 10px">
-      <mat-card-header style="margin-bottom:2px">
+  <div class="filters" style="width: 25%">
+    <mat-card class="example-card" style="padding: 8px; margin-left: 10px">
+      <mat-card-header >
         <mat-card-title style="float: left;">Services</mat-card-title>
       </mat-card-header>
       <mat-divider style="padding-top: 5px;"></mat-divider>
 
-      <mat-chip-list class="mat-chip-list-stacked" aria-label="Color selection">
+      <span style="margin-top: 10px;" *ngFor="let item of servicesList" >
+         <ul> 
+           <li>{{item}}  <button (click) = "remove(item,'fServices')">Remove</button></li>
+        </ul>
+      </span>
+      <!-- <mat-chip-list class="mat-chip-list-stacked" aria-label="Color selection">
         <mat-chip *ngFor="let item of servicesList" 
         [removable]="removable" (removed)="remove(item,'fServices')" style="margin-top:10px ;">
           {{item}}
           <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
         </mat-chip>
-      </mat-chip-list>
+      </mat-chip-list> -->
 
       <mat-card-actions>
-        <button mat-button (click) = 'addItem("fServices")' style="margin-left: 20px;">ADD</button> 
+        <button mat-button (click) = 'addItem("fServices")' 
+        [disabled] = '! flightSelected'
+        >ADD</button> 
       </mat-card-actions>
 
     </mat-card>
   </div>
 
-  <div class="filters" style="width: 16%">
-    <mat-card class="example-card" style="padding: 8px; margin: 10px">
+  <div class="filters" style="width: 25%">
+    <mat-card class="example-card" style="padding: 8px;">
       <mat-card-header style="margin-bottom:2px">
         <mat-card-title style="float: left;">Meals</mat-card-title>
       </mat-card-header>
       <mat-divider style="padding-top: 5px;"></mat-divider>
 
-      <mat-chip-list class="mat-chip-list-stacked" aria-label="Color selection">
+      <span style="margin-top: 10px;" *ngFor="let item of mealsList" >
+        <ul> 
+          <li>{{item}}  <button (click) = "remove(item,'fMeals')">Remove</button></li>
+       </ul>
+     </span>
+
+      <!-- <mat-chip-list class="mat-chip-list-stacked" aria-label="Color selection">
         <mat-chip *ngFor="let item of mealsList" 
         [removable]="removable" (removed)="remove(item,'fMeals')" style="margin-top:10px ;">
           {{item}}
           <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
         </mat-chip>
-      </mat-chip-list>
+      </mat-chip-list> -->
 
       <mat-card-actions>
-        <button mat-button (click) = 'addItem("fMeals")' style="margin-left: 20px;">ADD</button> 
+        <button mat-button (click) = 'addItem("fMeals")' style="margin-left: 20px;"
+        [disabled] = '! flightSelected'
+        >ADD</button> 
       </mat-card-actions>
 
     </mat-card>
   </div>
 
-  <div class="filters" style="width: 16%">
-    <mat-card class="example-card" style="padding: 8px; margin: 10px">
+  <div class="filters" style="width: 25%">
+    <mat-card class="example-card" style="padding: 8px">
       <mat-card-header style="margin-bottom:2px">
         <mat-card-title style="float: left;">Shopping Items</mat-card-title>
       </mat-card-header>
       <mat-divider style="padding-top: 5px;"></mat-divider>
 
-      <mat-chip-list class="mat-chip-list-stacked" aria-label="Color selection">
+      <span style="margin-top: 10px;" *ngFor="let item of shoppingItemsList" >
+        <ul> 
+          <li>{{item}}  <button (click) = "remove(item,'fShoppingItems')">Remove</button></li>
+       </ul>
+     </span>
+
+      <!-- <mat-chip-list class="mat-chip-list-stacked" aria-label="Color selection">
         <mat-chip *ngFor="let item of shoppingItemsList" 
         [removable]="removable" (removed)="remove(item,'fShoppingItems')" style="margin-top:10px ;">
           {{item}}
           <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
         </mat-chip>
-      </mat-chip-list>
+      </mat-chip-list> -->
 
       <mat-card-actions>
-        <button mat-button (click) = 'addItem("fShoppingItems")' style="margin-left: 20px;">ADD</button> 
+        <button mat-button (click) = 'addItem("fShoppingItems")' style="align-self: center;"
+        [disabled] = '! flightSelected'
+        >ADD</button> 
       </mat-card-actions>
 
     </mat-card>
   </div>
-
-
-
-
 
 </div>

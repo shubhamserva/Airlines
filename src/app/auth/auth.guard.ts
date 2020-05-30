@@ -20,7 +20,7 @@ export class authGuard implements CanActivate{
 
             
              return this.store.select('auth').pipe(map(userData =>{
-                 console.log("USR DATA is",userData);
+                 //console.log("USR DATA is",userData);
                  if(userData == undefined){
                     this.router.navigate(['/']);
                      return false;

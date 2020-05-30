@@ -1,24 +1,17 @@
 import { Component, OnInit, Inject, Pipe, PipeTransform } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { services } from '../../app.service';
-import { addPassengerDialog } from '../../../models/addPassengerDialog';
 import { flightDetails } from '../../../models/flightDetails';
 import { addPassengerDB } from 'src/models/addPassengerDB';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store'
-import { AddService } from '../../../Dialogs/AddServiceDialog'
 import { addPessDialog } from '../../../Dialogs/addPessDialog'
 import { updateDialog } from '../../../Dialogs/updateDialog'
-import { updateServiceModel } from 'src/models/updateServiceModel';
-
-import { FlatTreeControl } from '@angular/cdk/tree';
-import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { ThemePalette } from '@angular/material/core';
-
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatChipInputEvent } from '@angular/material/chips';
 import { AddItem } from 'src/Dialogs/addItemDialog';
 import { addServiceDB } from 'src/models/addServiceDB';
+import { updatePassengerDB } from 'src/models/updatePessangerDB';
 
 
 @Component({
@@ -37,12 +30,10 @@ export class AdminComponent implements OnInit {
   filterSelected;
   checkIn: any = "true";
   pId: any = 5;
-
   // Ancillary Services
   servicesList;
   mealsList;
   shoppingItemsList;
-
 
   visible = true;
   selectable = true;
@@ -58,9 +49,6 @@ export class AdminComponent implements OnInit {
   dataSource;
   ServicesList = ["Food", "Water", "Coke"];
   pData: Observable<{ passengerData }>;
-
-
-
 
   constructor(
     public dialog: MatDialog,
@@ -97,31 +85,30 @@ export class AdminComponent implements OnInit {
         this.getPassengersDetails(this.flightSelected);
 
       });
-      console.log("d" + addPData.Name);
+      //console.log("d" + addPData.Name);
     })
   }
   UpdatePDialog(event: any): void {
-    const dialogRef1 = this.dialog.open(updateDialog,
+    const updatePDialog = this.dialog.open(updateDialog,
       {
         width: "300px", data: {
           "Name": event.pName, "passportNo": event.Passport,
           "address": event.Address, "PNR": event.PNR
         }
       });
-    dialogRef1.afterClosed().subscribe(updatePData => {
+      updatePDialog.afterClosed().subscribe(updatePData => {
       this.pId++;
       console.log(updatePData);
       // Object to pass in Database
-      let updatePassenger = new addPassengerDB;
-      updatePassenger.pName = updatePData.Name;
-      updatePassenger.Passport = updatePData.passportNo;
-      updatePassenger.Address = updatePData.address;
-      updatePassenger.fId = this.flightSelected;
+      let updatePassenger = new updatePassengerDB;
+      updatePassenger.Name = updatePData.Name;
+      updatePassenger.PassportNo = updatePData.PassportNo;
+      updatePassenger.Address = updatePData.Address;
       updatePassenger.PNR = event.PNR;
 
       this.service.updatePassengers(updatePassenger).subscribe((response) => {
-        console.log("updated  Successfully & data source is");
-        console.log(this.dataSource);
+        //console.log("updated  Successfully & data source is");
+        //console.log(this.dataSource);
         this.getPassengersDetails(this.flightSelected);
       });
     })
@@ -190,7 +177,6 @@ export class AdminComponent implements OnInit {
       }
     }
   }
-
   addItem(data): void {
     const category = data;
     const dialogRef = this.dialog.open(AddItem,
@@ -231,7 +217,6 @@ export class AdminComponent implements OnInit {
     //   input.value = '';
     // }
   }
-
   remove(item,type): void {
     const index = this.servicesList.indexOf(item);
     if (type == 'fServices') {
@@ -242,15 +227,28 @@ export class AdminComponent implements OnInit {
       this.service.removeAncillaryItems(addService).subscribe((response) => {
         this.getServices(this.flightSelected);
       });
-
     }
-    console.log(":items to remove is",item,type);
-   // this.service.removeAncillary
-    // if (index >= 0) {
-      
-    //   this.servicesList.splice(index, 1);
+    else if (type == 'fMeals') {
+      let addService = new addServiceDB;
+      addService.Service = item;
+      addService.fId = this.flightSelected;
+      addService.type = 'fMeals'
+      this.service.removeAncillaryItems(addService).subscribe((response) => {
+        this.getServices(this.flightSelected);
+      });
+    }
+    else if (type == 'fShoppingItems') {
+      let addService = new addServiceDB;
+      addService.Service = item;
+      addService.fId = this.flightSelected;
+      addService.type = 'fShoppingItems'
+      this.service.removeAncillaryItems(addService).subscribe((response) => {
+        this.getServices(this.flightSelected);
+      });
+    }
 
-    // }
+    //console.log(":items to remove is",item,type);
+  
   }
 }
 
@@ -267,13 +265,7 @@ export class Filter implements PipeTransform {
       return data2 ? data2.filter(data => data['' + category] === "") : [];
     }
     else
-      console.log("category h", data2.category);
+      //console.log("category h", data2.category);
     return data2 ? data2.filter(data => data['' + category] == undefined) : [];
   }
-}
-
-
-export interface ChipColor {
-  name: string;
-  color: ThemePalette;
 }

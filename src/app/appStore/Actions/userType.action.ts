@@ -7,7 +7,7 @@ export const STAFF = 'STAFF'
 export class Admin implements Action{
     readonly type = ADMIN;
         constructor() {
-        console.log("action coming");
+        //console.log("action coming");
      }
 }
 

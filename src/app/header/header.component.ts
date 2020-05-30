@@ -15,7 +15,7 @@ export class headerComponent implements OnInit {
 
   title: String = 'Airlines';
   loginStatus: boolean = false;
-  private userData: SocialUser;
+  userData: SocialUser;
   private loggedIn: boolean;
 
   constructor(private router: Router,

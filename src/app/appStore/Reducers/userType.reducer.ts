@@ -13,7 +13,7 @@ export function userTypeReducer(
     action: any) {
     switch (action.type) {
         case LoginAs.ADMIN: {
-            console.log("state updated");
+            //console.log("state updated");
             return {
                 ...state,
                 type: 'admin',

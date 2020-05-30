@@ -1,5 +1,5 @@
 <div></div>
-<h3>Welcome to  : {{flightSeleted}}</h3>
+<h3 style="text-align: center;">Welcome to  : {{flightSeleted}}</h3>
 
 <mat-chip-list aria-label="Fish selection">
     <button mat-raised-button color="primary"  style="margin-left: 10px;">Filters :   </button>
@@ -30,9 +30,12 @@
     style="margin-left: 25px; margin-bottom: 30px;"> Confirm Seat </button>
 </div>
 <div>
-    
 </div>
 <p *ngIf ='! SeatSelectMsg'> Please Select Seat</p>
+<p *ngIf ="isPNRpresent"> Please Enter Correct PNR</p>
+<p *ngIf ="isSeatConfirm"> Please confirm the Seat : {{currentSeat}}</p>
+<p *ngIf ="successMsg" style="color: green;">Seat changed successfully !!!</p>
+<p *ngIf ="isAlreadyChecked" style="color:red;">Passenger Already checked-In !!!</p>
 </div>
 
 <mat-divider style="margin: 10px;"></mat-divider> 
@@ -77,11 +80,6 @@
             <ng-container matColumnDef="ChangeSeat">
                 <th mat-header-cell *matHeaderCellDef>Change Seat </th>
                 <td mat-cell *matCellDef="let row"> <button (click)="ChangeSeat(row)">Change</button></td>
-            </ng-container>
-
-            <ng-container matColumnDef="EditServices">
-                <th mat-header-cell *matHeaderCellDef> Edit Services. </th>
-                <td mat-cell *matCellDef="let row"> <button (click)="addservice(row)">Update</button></td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

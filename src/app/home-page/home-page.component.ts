@@ -8,8 +8,6 @@ import { Store } from '@ngrx/store';
 })
 export class HomePageComponent implements OnInit {  
 
-  seats = [1,3,5,7,9];
-  
   loginStatus:any =  false;
   constructor(
     private store: Store<{ auth: { State: {} } }>
@@ -18,7 +16,6 @@ export class HomePageComponent implements OnInit {
   ngOnInit(): void {
     this.store.select('auth').subscribe((data: any) => {
       this.loginStatus = (data.isAuthenticated);
-      
       });
   }
   

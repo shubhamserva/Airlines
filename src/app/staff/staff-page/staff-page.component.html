@@ -1,4 +1,10 @@
-<div style="margin-left: 10px;">
+<div style="background-image: url(../../assets/staff.jpg) ;background-repeat: no-repeat;
+background-size: cover;background-position: center;height: 100%;width: 99vw;" >
+
+<h2 style="text-align: center; margin-top: 0px; padding: 20px;">Welcome Staff Members </h2>
+<div *ngIf = "! flightSelected" style="color: red; text-align: center; margin: 20px; " > Please Select Flight</div>
+
+<div style="margin-left: 10px; text-align: center;">
     <mat-form-field appearance="outline" style="padding: 0px;">
       <mat-label >Select Flight</mat-label>
       <mat-select (selectionChange)="selectedFlightInfo($event.value)">
@@ -9,11 +15,11 @@
     </mat-form-field>
   </div>
 
-  <div *ngIf = "flightNotSelectMsg" style="color: red;"> Please Select Flight First !!</div>
+<p style="text-align: center; color: teal" *ngIf = "flightSelected"> Please Select Flight Status: </p>
 
-<p> Please Select Flight Status: </p>
+<div style="text-align: center"> 
+    <button mat-stroked-button style="margin-left:10px" (click) = checkIn() [disabled] = "! flightSelected">Check-In </button>
+    <button mat-stroked-button style="margin-left:10px" (click) = InFlight() [disabled] = "! flightSelected" >In-Flight </button>
+</div>
 
-<div> 
-    <button mat-stroked-button style="margin-left:10px" (click) = checkIn()>Check-In </button>
-    <button mat-stroked-button style="margin-left:10px" (click) = InFlight() >In-Flight </button>
 </div>

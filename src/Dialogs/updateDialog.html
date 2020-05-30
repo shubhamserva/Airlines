@@ -3,21 +3,22 @@
   <p>Passenger Name</p>
   <mat-form-field>
     <mat-label>Name</mat-label>
-    <input matInput [(ngModel)]="data.Name">
+    <input matInput required minlength="1" [(ngModel)]="data.Name">
   </mat-form-field>
 </div>
 <div mat-dialog-content>
     <p>Passport Details</p>
     <mat-form-field>
       <mat-label>Enter Passport No.</mat-label>
-      <input matInput [(ngModel)]="data.passportNo">
+      <input matInput [(ngModel)]="data.PassportNo" 
+      style="text-transform:uppercase" required maxlength="6" minlength="6">
     </mat-form-field>
   </div>
   <div mat-dialog-content>
     <p>Passenger Address </p>
     <mat-form-field>
       <mat-label>Write address here</mat-label>
-      <input matInput [(ngModel)]="data.address">
+      <input matInput [(ngModel)]="data.Address">
     </mat-form-field>
   </div>
 <div mat-dialog-actions>

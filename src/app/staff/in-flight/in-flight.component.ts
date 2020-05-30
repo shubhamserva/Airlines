@@ -27,15 +27,15 @@ export class InFlightComponent implements OnInit {
   ngOnInit(): void {
 
     this.flightSeleted = localStorage.getItem("Selected_Flight");
-    console.log(this.flightSeleted);
+    //console.log(this.flightSeleted);
     this.getPassengersDetails(this.flightSeleted);
   }
 
   getPassengersDetails(flightId) {
-    console.log("data updated and loaded again")
+    //console.log("data updated and loaded again")
     this.service.getPassengers(flightId).subscribe((passengerDat: any) => {
       this.dataSource = passengerDat.data.result;
-      console.log("data aaya",this.dataSource);
+      //console.log("data aaya",this.dataSource);
 
     });
   }
@@ -45,11 +45,15 @@ export class InFlightComponent implements OnInit {
       let addshopItemDB = new addShopItem;
       addshopItemDB.ShoppingItem = shopItem.Name
       addshopItemDB.PNR = event.PNR
-      
+      console.log("back me jja rhah");
       this.service.addShoppingItem(addshopItemDB).subscribe((response)=>{
         console.log("response in add shop item",response)
         this.getPassengersDetails(this.flightSeleted);  
     })
+    setTimeout(() => {
+      this.getPassengersDetails(this.flightSeleted);  
+    }, 4000);
+    
   })
   }
   addServices(event){

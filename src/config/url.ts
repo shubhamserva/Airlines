@@ -1,16 +1,16 @@
 export const url = 
 {
-     addPassengers:"http://localhost:5555/addPassenger",
-     getFlights:"http://localhost:5555/getFlights",
-     getPassengers:"http://localhost:5555/getPassengers",
-     deleteFlights:"http://localhost:5555/deleteFlight",
-     updatePassengers:"http://localhost:5555/updatePassenger",
-     addShopItem:"http://localhost:5555/addShopItem",
-     addService:"http://localhost:5555/addService",
-     checkIn:"http://localhost:5555/checkIn",
-     updateMeal:"http://localhost:5555/updateMeal",
-     getServices:"http://localhost:5555/getServices",
-     addAncillaryServices:"http://localhost:5555/addAncillaryServices",
-     removeAncillaryItems:"http://localhost:5555/removeAncillaryItems"
+     addPassengers:"https://airline-server007.herokuapp.com/addPassenger",
+     getFlights:"https://airline-server007.herokuapp.com/getFlights",
+     getPassengers:"https://airline-server007.herokuapp.com/getPassengers",
+     deleteFlights:"https://airline-server007.herokuapp.com/deleteFlight",
+     updatePassengers:"https://airline-server007.herokuapp.com/updatePassenger",
+     addShopItem:"https://airline-server007.herokuapp.com/addShopItem",
+     addService:"https://airline-server007.herokuapp.com/addService",
+     checkIn:"https://airline-server007.herokuapp.com/checkIn",
+     updateMeal:"https://airline-server007.herokuapp.com/updateMeal",
+     getServices:"https://airline-server007.herokuapp.com/getServices",
+     addAncillaryServices:"https://airline-server007.herokuapp.com/addAncillaryServices",
+     removeAncillaryItems:"https://airline-server007.herokuapp.com/removeAncillaryItems"
  
 }

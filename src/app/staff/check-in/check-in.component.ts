@@ -3,7 +3,6 @@ import { services } from 'src/app/app.service';
 import { MatDialog } from '@angular/material';
 import { seat } from '../../../models/seat'
 import { checkIn } from 'src/models/checkInDB';
-import { changeSeat } from 'src/Dialogs/changeSeat';
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Component({
@@ -14,7 +13,11 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 export class CheckInComponent implements OnInit {
 
+  isPNRpresent;
+  isSeatConfirm;
+  isAlreadyChecked;
   SeatSelectMsg = true;
+  successMsg = false;
   seats: any = seat;
   flightSeleted;
   checkINFilter = false;
@@ -41,10 +44,9 @@ export class CheckInComponent implements OnInit {
 
   ngOnInit(): void {
     this.flightSeleted = localStorage.getItem("Selected_Flight");
-    console.log(this.flightSeleted);
+    //console.log(this.flightSeleted);
     this.getPassengersDetails(this.flightSeleted);
   }
-
   getPassengersDetails(flightId) {
     this.service.getPassengers(flightId).subscribe((passengerDat: any) => {
       this.dataSource = passengerDat.data.result;
@@ -121,6 +123,8 @@ export class CheckInComponent implements OnInit {
       if (this.seatStatus == true) {
       }
       else {
+        this.isSeatConfirm = true;
+        this.SeatSelectMsg = true;
         this.currentSeat = item;
         (this.seats).find(p => p.No === item && (p.Status = !p.Status));
         if (this.previousSeat == null) {
@@ -136,23 +140,54 @@ export class CheckInComponent implements OnInit {
   ChangeSeat(data) {
     this.SeatSelectMsg = false;
     this.checkInFlag = true;
+    //console.log("dat is", data);
     (this.seats).find(p => p.No === data.SeatNo && (p.Status = !p.Status));
     this.checkInPNR = data.PNR;
   }
   checkIn() {
-    this.SeatSelectMsg = false;
-    this.checkInFlag = true;
+    for (let item of this.dataSource) {
+      // To check if PNR is present in passenger list
+      if (item.PNR == this.checkInPNR) {
+        if (item.SeatNo != null) {
+          //console.log("is al check me aaya");
+          this.isAlreadyChecked = true;
+          setTimeout(() => {
+            this.isAlreadyChecked = false;
+          }, 1500);
+          break;
+        }
+        else {
+          //console.log("bahar aaya");
+          this.isPNRpresent = false
+          this.SeatSelectMsg = false;
+          this.checkInFlag = true;
+          break;
+        }
+
+      }
+      else {
+        this.isPNRpresent = true;
+        setTimeout(() => {
+          this.isPNRpresent = false;
+        }, 1500);
+      }
+    }
   }
   confirmSeat() {
-    console.log("confirm seat me aaya");
+    //console.log("confirm seat me aaya");
     if (this.currentSeat != null) {
+      this.isSeatConfirm = false;
       this.SeatSelectMsg = true;
       this.checkInFlag = false;
       let data = new checkIn;
       data.PNR = this.checkInPNR;
       data.SeatNo = this.currentSeat;
-      this.service.checkIn(data).subscribe(()=>{
+      this.service.checkIn(data).subscribe(() => {
+        this.successMsg = true;
         this.getPassengersDetails(this.flightSeleted);
+        setTimeout(() => {
+          this.successMsg = false;
+        }, 2000);
       });
     }
   }

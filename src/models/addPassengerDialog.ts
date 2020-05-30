@@ -1,5 +1,7 @@
 export class addPassengerDialog{
     Name: string;
   PassportNo: string;
-  Address: string
+  Address: string;
+  PNR:String;
+  SeatNo:String
 }

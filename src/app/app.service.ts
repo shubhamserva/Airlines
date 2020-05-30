@@ -6,6 +6,7 @@ import { addShopItem } from 'src/models/addShopItemDB';
 import { checkIn } from 'src/models/checkInDB';
 import { updateMealDB } from 'src/models/updateMealDB';
 import { addService } from 'src/models/addServiceModelDB';
+import { updatePassengerDB } from 'src/models/updatePessangerDB';
 
 @Injectable({ providedIn: 'root' })
 export class services {
@@ -16,17 +17,16 @@ export class services {
 
     }
     getPassengers(flightId) {
-        console.log("flight id 1",flightId)
         return this.http.get(url.getPassengers+'?flightId='+flightId );
     }
     deleteFlights(flightId){    
-        console.log("Deleting Flights");
+        //console.log("Deleting Flights");
         return this.http.get(url.deleteFlights+'?flightId='+flightId );
     }
     addPassengers(passengerData: addPassengerDB){
         return this.http.post(url.addPassengers,passengerData);
     }
-    updatePassengers(passengerData: addPassengerDB){
+    updatePassengers(passengerData: updatePassengerDB){
         return this.http.post(url.updatePassengers,passengerData);
     }
     addShoppingItem(data:addShopItem){
@@ -46,7 +46,7 @@ export class services {
         return this.http.get(url.getServices+'?flightId='+flightInfo );
     }
     addAncillaryItems(data){
-        console.log("flight id 2",data)
+        //console.log("flight id 2",data)
         return this.http.post(url.addAncillaryServices,data);
     }
     removeAncillaryItems(data){
