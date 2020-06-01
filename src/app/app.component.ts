@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { DateAdapter } from '@angular/material';
 import { Router, NavigationStart } from '@angular/router';
 import { Subscription } from 'rxjs';
 import * as authActions from './appStore/Actions/auth.actions'

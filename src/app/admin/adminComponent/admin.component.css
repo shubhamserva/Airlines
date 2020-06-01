@@ -17,14 +17,25 @@ table
   {
       width: 100%;
   }
-  .example-card {
-    max-width: 180px;
-  }
-  
-  .example-header-image {
+.example-header-image {
     background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
     background-size: cover;
   }
   .mat-chip {
     max-width: 100px;
   }
+  
+ @media only screen and (max-width: 600px){
+    .Mobile{
+      display: block;
+  
+    }
+  }
+
+ @media only screen and (min-width: 800px){
+    .Mobile{
+      display: flex ;
+  
+    }
+  }
+

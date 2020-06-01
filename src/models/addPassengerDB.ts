@@ -11,7 +11,7 @@ export class addPassengerDB {
         required: true
     }
     Infant: {
-        type: String
+        type: Boolean
     }
     Check_In_Status: {
         type: String,

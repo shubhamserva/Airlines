@@ -16,6 +16,8 @@ export class CheckInComponent implements OnInit {
   isPNRpresent;
   isSeatConfirm;
   isAlreadyChecked;
+  flightInfo;
+  tempSeat = false;
   SeatSelectMsg = true;
   successMsg = false;
   seats: any = seat;
@@ -44,15 +46,32 @@ export class CheckInComponent implements OnInit {
 
   ngOnInit(): void {
     this.flightSeleted = localStorage.getItem("Selected_Flight");
+    this.getFlightDetails(this.flightSeleted);
     //console.log(this.flightSeleted);
     this.getPassengersDetails(this.flightSeleted);
+  }
+  getFlightDetails(flightId){
+    // this.service.getFlightDetails(flightId).subscribe((flightData:any)=>{
+    //   this.flightInfo = flightData;
+    // });
+    
   }
   getPassengersDetails(flightId) {
     this.service.getPassengers(flightId).subscribe((passengerDat: any) => {
       this.dataSource = passengerDat.data.result;
+      console.log("data is",this.dataSource);
       for (let item of this.dataSource) {
         if (item.Check_In_Status == true) {
           (this.seats).find(p => p.No === item.SeatNo && (p.Status = true));
+          
+        }
+        if(item.Infant == true){
+          console.log("kitne bacche");
+          (this.seats).find(p => p.No === item.SeatNo && (p.Infant = true));
+        }
+        if(item.WheelChair == true){
+          console.log("whell chair bhi h");
+          (this.seats).find(p => p.No === item.SeatNo && (p.Wheelchair = true));
         }
       }
     });
@@ -125,6 +144,7 @@ export class CheckInComponent implements OnInit {
       else {
         this.isSeatConfirm = true;
         this.SeatSelectMsg = true;
+        this.tempSeat = true;
         this.currentSeat = item;
         (this.seats).find(p => p.No === item && (p.Status = !p.Status));
         if (this.previousSeat == null) {
@@ -176,6 +196,7 @@ export class CheckInComponent implements OnInit {
   confirmSeat() {
     //console.log("confirm seat me aaya");
     if (this.currentSeat != null) {
+      this.tempSeat = false;
       this.isSeatConfirm = false;
       this.SeatSelectMsg = true;
       this.checkInFlag = false;

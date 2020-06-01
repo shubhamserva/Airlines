@@ -1,6 +1,5 @@
-import { addPassengerDB } from 'src/models/addPassengerDB';
 import * as adminActions from '../Actions/app.action'
-import { Action } from '@ngrx/store'
+
 
 const defaultData = {
     PassengerData:[

@@ -1,27 +1,82 @@
-.mat-checkbox{
-
-    margin: 5px;
-    padding: 8px;
-}
-.mat-grid-tile
-{
-    margin-top: 10px;
-    margin: 5px;
-    border: solid teal;
-}
-.text-inside-grid {
-    text-align: start;
-    left: 5px;
-}
 table
   {
       width: 100%;
+      margin-left: 20px;
+      overflow-x: auto;
   }
-  .example-card {
-    max-width: 180px;
+.seatBox{
+  width: 70%;
+  height: 50%;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+  @media only screen and (max-width: 600px){
+    .Mobile{
+      display: block;
+    }
   }
-  
-  .example-header-image {
-    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
-    background-size: cover;
+
+ @media only screen and (min-width: 800px){
+    .Mobile{
+      display: flex ;
+    }
   }
+
+.grey{
+    height: 15px;
+    width: 15px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+}
+.red{
+    height: 15px;
+    width: 15px;
+    background-color: red;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+}
+.yellow{
+    height: 15px;
+    width: 15px;
+    background-color: yellow;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+}
+.seatBox {
+  width: 32%;
+  margin:10px;
+  margin-left: 20px;
+  padding: 10px;
+  border: solid rgb(44, 6, 80);
+  display: flex;
+}
+.dot {
+  height: 45px;
+  width: 45px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  text-align: center;
+ 
+}
+.dotSelected {
+  background-color:red;
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+}
+.dotYellow{
+  background-color:yellow;
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
+  display: inline-block;
+  text-align: center
+}

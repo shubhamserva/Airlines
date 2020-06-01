@@ -1,13 +1,13 @@
 <h1 mat-dialog-title>Add Passenger</h1>
 <div mat-dialog-content>
-  <p>Passenger Name</p>
+  <p style="margin: 6px;">Passenger Name</p>
   <mat-form-field>
     <mat-label>Name</mat-label>
     <input matInput [(ngModel)]="data.Name">
   </mat-form-field>
 </div>
 <div mat-dialog-content>
-    <p>Passport Details</p>
+    <p  style="margin: 6px;" >Passport Details</p>
     <mat-form-field>
       <mat-label>Enter Passport No.</mat-label>
       <input matInput [(ngModel)]="data.PassportNo" 
@@ -15,7 +15,7 @@
     </mat-form-field>
   </div>
   <div mat-dialog-content>
-    <p>Enter PNR</p>
+    <p  style="margin: 6px;" >Enter PNR</p>
     <mat-form-field>  
       <mat-label>Write PNR here</mat-label>
       <input matInput [(ngModel)]="data.PNR"
@@ -23,12 +23,19 @@
     </mat-form-field>
   </div>
   <div mat-dialog-content>  
-    <p>Seat No.</p>
-    <mat-form-field>
-      <mat-label>Enter SeatNo</mat-label>
-      <input matInput [(ngModel)]="data.SeatNo"
-      required maxlength="2" minlength="2">
-    </mat-form-field>
+    <p  style="margin: 6px;" >Infants</p>
+      <mat-radio-group matInput [(ngModel)]="data.Infant" >
+        <mat-radio-button  value="true"> Yes</mat-radio-button>
+        <mat-radio-button  value="false"> No </mat-radio-button>
+      </mat-radio-group>
+  </div>
+  <div mat-dialog-content>  
+    <p>Require Wheelchair</p>
+      <mat-radio-group matInput [(ngModel)]="data.Wheelchair" >
+        <mat-radio-button value="true"> Yes </mat-radio-button>
+        <mat-radio-button value="false"> No </mat-radio-button>
+
+     </mat-radio-group>
   </div>
 
 <div mat-dialog-actions>

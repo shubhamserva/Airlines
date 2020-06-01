@@ -1,25 +1,55 @@
 <h3 style="text-align: center;">Selected Flight is :  {{flightSeleted}}</h3>
 
+<mat-divider style="margin: 10px;"></mat-divider> 
 
-<div class="table" style="width: 70%; margin-left: 20px;">
-    <table mat-table  [dataSource]="dataSource" class="mat-elevation-z8 " style=" margin-top:20px  ">
+<span style="text-align: center">
+  <div style="display: inline; padding: 10px;">
+      <span class="grey">
+      </span>
+      <span style="margin-bottom: 6px;">
+       Occupied Seat
+      </span> 
+   </div>
+
+   <div style="display: inline; padding: 10px;">
+       <span class="red">
+       </span>
+       <span style="margin-bottom: 6px;">
+        Available Seat
+       </span> 
+    </div>
+
+    <div style="display: inline; padding: 10px;">
+       <span class="yellow">
+       </span>
+       <span style="margin-bottom: 6px;">
+        Special Meals
+       </span> 
+    </div>
+</span>
+
+<mat-divider style="margin: 10px;"></mat-divider> 
+<div class="Mobile">
+
+<div class="table">
+    <table mat-table  [dataSource]="dataSource" class="mat-elevation-z8 " >
 
       <!-- PNR Column -->   
       <ng-container matColumnDef="PNR">
         <th mat-header-cell *matHeaderCellDef> PNR </th>
-        <td mat-cell *matCellDef="let element"> {{element.PNR}} </td>
+        <td mat-cell *matCellDef="let element" style="width: 14%;"> {{element.PNR}} </td>
       </ng-container>
 
       <!-- Meal Column -->  
       <ng-container matColumnDef="MealPrefrence">
-        <th mat-header-cell *matHeaderCellDef> MealPrefrence </th>
-        <td mat-cell *matCellDef="let element"> {{element.food}} </td>
+        <th mat-header-cell *matHeaderCellDef> Meals </th>
+        <td mat-cell *matCellDef="let element" > {{element.food}} </td>
       </ng-container>
 
       <!-- Service Column -->
       <ng-container matColumnDef="Services">
         <th mat-header-cell *matHeaderCellDef> Services </th>
-        <td mat-cell *matCellDef="let element"> {{element.Services}} </td>
+        <td mat-cell *matCellDef="let element" > {{element.Services}} </td>
       </ng-container>
 
       <!-- Seat No Column -->
@@ -29,25 +59,28 @@
       </ng-container>
 
       <!-- Seat No Column -->
-      <ng-container matColumnDef="ShopRequests">
-        <th mat-header-cell *matHeaderCellDef> ShopRequests </th>
-        <td mat-cell *matCellDef="let element"> {{element.ShopRequests}} </td>
+      <ng-container matColumnDef="ShopRequests" >
+        <th mat-header-cell *matHeaderCellDef> Shop </th>
+        <td mat-cell *matCellDef="let element"  style=" overflow-wrap: anywhere; width: 15%;"> {{element.ShopRequests}} </td>
       </ng-container>
 
       <!-- Update Button Column -->
       <ng-container matColumnDef="changeMeal">
         <th mat-header-cell *matHeaderCellDef> Change Meal </th>
-        <td mat-cell *matCellDef="let row"> <button (click)="changeMeal(row)" >Update</button></td>
+        <td mat-cell *matCellDef="let row"> 
+          <button (click)="changeMeal(row)" >Update</button></td>
       </ng-container>
 
       <ng-container matColumnDef="Add_ShopRequests">
-        <th mat-header-cell *matHeaderCellDef> Add Shopping Item </th>
-        <td mat-cell *matCellDef="let row"> <button (click)="addShopItem(row)" >Add Item</button></td>
+        <th mat-header-cell *matHeaderCellDef > Add Shop Item </th>
+        <td mat-cell *matCellDef="let row">
+           <button (click)="addShopItem(row)" >Add Item</button></td>
       </ng-container>
 
       <ng-container matColumnDef="updateServices">  
-        <th mat-header-cell *matHeaderCellDef>Add Services </th>
-        <td mat-cell *matCellDef="let row"> <button (click)="addServices(row)" >Add Services</button></td>
+        <th mat-header-cell *matHeaderCellDef style="margin-left: 4px;">Add Services </th>
+        <td mat-cell *matCellDef="let row"> 
+          <button (click)="addServices(row)" >Add Services</button></td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -55,3 +88,18 @@
     </table>
 
   </div>
+
+  <div class="seatBox"> 
+    <div    
+     *ngFor="let RowNo of seats; let i=index" 
+
+    [ngClass] = "{
+        'dot' :RowNo.Status,
+        'dotSelected':!RowNo.Status,
+        'dotYellow': RowNo.infant}" 
+    style="padding: 4px; margin: 2px;" >   
+        <p>{{RowNo.No}} </p>
+    </div>
+</div>
+
+</div>

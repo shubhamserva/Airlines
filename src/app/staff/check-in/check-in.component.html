@@ -1,5 +1,8 @@
-<div></div>
-<h3 style="text-align: center;">Welcome to  : {{flightSeleted}}</h3>
+<div style="display: flex; padding: 10px;">
+    <h3 style="text-align: center;">Welcome to  : {{flightSeleted}}</h3>  
+
+    <h3 >Source:</h3>
+</div>
 
 <mat-chip-list aria-label="Fish selection">
     <button mat-raised-button color="primary"  style="margin-left: 10px;">Filters :   </button>
@@ -12,13 +15,13 @@
 
 <mat-divider style="margin: 10px;"></mat-divider> 
 
-<div style="text-align: center; ;">
-<div >
+<div style="text-align: center; ">
+<div>
     <mat-form-field appearance="outline" >
       <mat-label>Enter PNR</mat-label>
       <input matInput placeholder="PNR" [(ngModel)] = 'checkInPNR' 
       #checkInForm = 'ngModel'
-      required maxlength="6" minlength="6">
+      required maxlength="6">
     </mat-form-field>
     <button mat-raised-button color="primary" 
     [disabled]="checkInForm.invalid"
@@ -28,21 +31,61 @@
     <button mat-raised-button color="primary" 
     (click) = 'confirmSeat()' 
     style="margin-left: 25px; margin-bottom: 30px;"> Confirm Seat </button>
+
+   <div>
+       <div style="display: inline; padding: 10px;">
+           <span class="grey">
+           </span>
+           <span style="margin-bottom: 6px;">
+            Occupied Seat
+           </span> 
+        </div>
+        <div style="display: inline; padding: 10px;">
+            <span class="red">
+            </span>
+            <span style="margin-bottom: 6px;">
+             Available Seat
+            </span> 
+         </div>
+         <div style="display: inline; padding: 10px;">
+            <span class="yellow">
+            </span>
+            <span style="margin-bottom: 6px;">
+             Pessangers r/q wheelchair
+            </span> 
+         </div>
+         <div style="display: inline; padding: 10px;">
+            <span class="blue">
+            </span>
+            <span style="margin-bottom: 6px;">
+             Passenger with Infants
+            </span> 
+         </div>
+
+
+         <!-- <div style="display: inline; padding: 10px;">
+            <span class="green">
+            </span>
+            <span style="margin-bottom: 6px;">
+             Selected Seat
+            </span> 
+         </div> -->
+        </div>
 </div>
 <div>
 </div>
-<p *ngIf ='! SeatSelectMsg'> Please Select Seat</p>
+<h2 *ngIf ='! SeatSelectMsg'> Please Select Seat !!</h2>
 <p *ngIf ="isPNRpresent"> Please Enter Correct PNR</p>
-<p *ngIf ="isSeatConfirm"> Please confirm the Seat : {{currentSeat}}</p>
+<h2 *ngIf ="isSeatConfirm"> Please confirm the Seat : {{currentSeat}}</h2>
 <p *ngIf ="successMsg" style="color: green;">Seat changed successfully !!!</p>
 <p *ngIf ="isAlreadyChecked" style="color:red;">Passenger Already checked-In !!!</p>
 </div>
 
 <mat-divider style="margin: 10px;"></mat-divider> 
 
-<div class="parent" style="display: flex;">
+<div class = "Mobile" >
 
-    <div class="table" style="width: 50%;">
+    <div class="table" style="width: 100%; overflow-x: auto; ">
 
         <table mat-table *ngIf="dataSource" [dataSource]="dataSource | Filter : filterSelected  " class="mat-elevation-z8 " style=" margin-top:10px  ">
 
@@ -87,11 +130,20 @@
         </table>
     </div>
 
-    <div class="seatBox" style="display: flex; flex-wrap: wrap;">
+    
+    <div class="seatBox" style=" width: 100%;height: 50%;; flex-wrap: wrap;">
+       
         <div    
          *ngFor="let RowNo of seats; let i=index" 
-        [ngClass] = "RowNo.Status === true ? 'dot' :'dotSelected'"
-        (click)="SeatSelected($event,RowNo.No)" >   
+
+        [ngClass] = "{
+            'dot' :RowNo.Status,
+            'dotSelected':!RowNo.Status,
+            'dotYellow':RowNo.Status && RowNo.Wheelchair,
+            'dotBlue':RowNo.Status && RowNo.Infant
+            }" 
+        (click)="SeatSelected($event,RowNo.No)"
+        style="padding: 4px; margin: 2px;" >   
             <p>{{RowNo.No}} </p>
         </div>
     </div>

@@ -52,4 +52,7 @@ export class services {
     removeAncillaryItems(data){
         return this.http.post(url.removeAncillaryItems,data);
     }
+    getFlightDetails(flightId){
+        return this.http.get(url.getFlightDetails+'?flightId='+flightId );
+    }
 }

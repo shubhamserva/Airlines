@@ -35,13 +35,78 @@ table {
    
 }
 .dotSelected {
-    background-color: brown;
+    background-color:red;
     height: 45px;
     width: 45px;
     border-radius: 50%;
     display: inline-block;
     text-align: center;
     cursor: pointer;
+}
+.dotTemp{
+    background-color:green;
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+}
+.dotYellow{
+    background-color:yellow;
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center
+}
+.dotBlue{
+    background-color:blue;
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center
+}
+.grey{
+    height: 15px;
+    width: 15px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+}
+.red{
+    height: 15px;
+    width: 15px;
+    background-color: red;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+}
+.green{
+    height: 15px;
+    width: 15px;
+    background-color: green;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+}
+.yellow{
+    height: 15px;
+    width: 15px;
+    background-color: yellow;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+}
+.blue{
+    height: 15px;
+    width: 15px;
+    background-color: blue;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
 }
 .seatBox {
     width: 32%;
@@ -55,3 +120,15 @@ table {
 p {
     font-size: 14px;
 }
+
+@media only screen and (max-width: 600px){
+    .Mobile{
+      display: block;
+    }
+  }
+
+ @media only screen and (min-width: 800px){
+    .Mobile{
+      display: flex ;
+    }
+  }

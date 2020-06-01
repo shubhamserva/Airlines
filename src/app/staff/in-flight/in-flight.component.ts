@@ -7,6 +7,7 @@ import { updateMealDB } from 'src/models/updateMealDB';
 import { updateMeal } from 'src/Dialogs/updateMeal';
 import { UpdateService } from 'src/Dialogs/updateServiceDialog';
 import { addService } from 'src/models/addServiceModelDB';
+import { seat } from 'src/models/seat';
 
 @Component({
   selector: 'app-in-flight',
@@ -19,6 +20,7 @@ export class InFlightComponent implements OnInit {
   displayedColumns: string[] = ['PNR', 'SeatNo', 'ShopRequests', 'Add_ShopRequests',
                                 'MealPrefrence','changeMeal','Services','updateServices'];
   dataSource;
+  seats: any = seat;
   constructor(
     private service: services,
     public dialog: MatDialog,
@@ -35,8 +37,16 @@ export class InFlightComponent implements OnInit {
     //console.log("data updated and loaded again")
     this.service.getPassengers(flightId).subscribe((passengerDat: any) => {
       this.dataSource = passengerDat.data.result;
-      //console.log("data aaya",this.dataSource);
-
+      // Using infant as special meal color 
+      console.log(this.dataSource);
+      for (let item of this.dataSource) {
+        if (item.Check_In_Status == true) {
+          (this.seats).find(p => p.No === item.SeatNo && (p.Status = true));
+        }
+        if (item.food != null) {
+          (this.seats).find(p => p.No === item.SeatNo && (p.infant = true));
+        }
+      }
     });
   }
   addShopItem(event:any) {

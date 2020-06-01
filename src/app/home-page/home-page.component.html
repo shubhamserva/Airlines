@@ -6,7 +6,7 @@ width: 99vw;" >
 
   <h1 style="text-align: center; margin-top: 0px;padding: 20px; ">Welcome to Airlines</h1>
 
-  <h3 style="margin: 15px;"> Please Select Role : </h3>
+  <h3 style="margin: 15px;" *ngIf = "loginStatus"> Please Select Role : </h3>
   <button mat-raised-button color="accent" style="margin-left:10px" *ngIf = "loginStatus" [routerLink]="['/admin']" >ADMIN </button>
   <button mat-raised-button color="accent" style="margin-left:10px" *ngIf = "loginStatus" [routerLink]="['/staff']" >STAFF </button>
   

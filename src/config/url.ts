@@ -11,6 +11,7 @@ export const url =
      updateMeal:"https://airline-server007.herokuapp.com/updateMeal",
      getServices:"https://airline-server007.herokuapp.com/getServices",
      addAncillaryServices:"https://airline-server007.herokuapp.com/addAncillaryServices",
-     removeAncillaryItems:"https://airline-server007.herokuapp.com/removeAncillaryItems"
+     removeAncillaryItems:"https://airline-server007.herokuapp.com/removeAncillaryItems",
+     getFlightDetails:"https://airline-server007.herokuapp.com/getFlightDetails"
  
 }

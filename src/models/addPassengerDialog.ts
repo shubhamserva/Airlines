@@ -3,5 +3,7 @@ export class addPassengerDialog{
   PassportNo: string;
   Address: string;
   PNR:String;
-  SeatNo:String
+  SeatNo:String;
+  Infant:boolean;
+  Wheelchair:boolean;
 }

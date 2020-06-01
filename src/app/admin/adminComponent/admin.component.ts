@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, Pipe, PipeTransform } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog} from '@angular/material/dialog';
 import { services } from '../../app.service';
 import { flightDetails } from '../../../models/flightDetails';
 import { addPassengerDB } from 'src/models/addPassengerDB';
@@ -7,7 +7,6 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store'
 import { addPessDialog } from '../../../Dialogs/addPessDialog'
 import { updateDialog } from '../../../Dialogs/updateDialog'
-import { ThemePalette } from '@angular/material/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { AddItem } from 'src/Dialogs/addItemDialog';
 import { addServiceDB } from 'src/models/addServiceDB';
@@ -72,15 +71,17 @@ export class AdminComponent implements OnInit {
     const dialogRef = this.dialog.open(addPessDialog,
       { width: "300px", data: {} });
     dialogRef.afterClosed().subscribe(addPData => {
+      console.log("wheel chair data", addPData)
       this.pId++;
       let addPassenger = new addPassengerDB;
       addPassenger.pName = addPData.Name;
       addPassenger.Passport = addPData.PassportNo;
       addPassenger.Address = addPData.Address;
       addPassenger.fId = this.flightSelected;
-      addPassenger.SeatNo = addPData.SeatNo;
       addPassenger.Check_In_Status = this.checkIn;
       addPassenger.PNR = addPData.PNR;
+      addPassenger.WheelChair = addPData.Wheelchair;
+      addPassenger.Infant = addPData.Infant;
       this.service.addPassengers(addPassenger).subscribe((response) => {
         this.getPassengersDetails(this.flightSelected);
 

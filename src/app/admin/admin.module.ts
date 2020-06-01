@@ -6,7 +6,7 @@ import{addPessDialog} from '../../Dialogs/addPessDialog';
 import {MatToolbarModule,MatDividerModule,MatFormFieldModule,MatSelectModule,
   MatIconModule,MatButtonModule,MatCheckboxModule,
   MatTableModule,MatGridListModule,MatDialogModule,
-  MatListModule,MatInputModule,MatCardModule} from '@angular/material'
+  MatListModule,MatInputModule,MatCardModule,MatRadioModule} from '@angular/material'
 import { FormsModule } from '@angular/forms';
 import { AddService } from 'src/Dialogs/AddServiceDialog';
 import { AdminRoutingModule } from './admin.routing.module';
@@ -35,7 +35,8 @@ import { AddItem } from 'src/Dialogs/addItemDialog';
     MatCardModule,
     MatListModule,
     AdminRoutingModule,
-    MatTreeModule
+    MatTreeModule,
+    MatRadioModule
   ]
 })
 export class AdminModule { }

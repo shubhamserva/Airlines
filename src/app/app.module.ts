@@ -15,7 +15,6 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { userTypeReducer } from './appStore/Reducers/userType.reducer';
 import { CookieService } from 'ngx-cookie-service';
 import { MatChipsModule } from '@angular/material/chips';
-import { authGuard } from '../app/auth/auth.guard';
 
 let config = new AuthServiceConfig([
   {
