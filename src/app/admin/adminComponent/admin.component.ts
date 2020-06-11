@@ -1,17 +1,18 @@
 import { Component, OnInit, Inject, Pipe, PipeTransform } from '@angular/core';
-import { MatDialog} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { services } from '../../app.service';
 import { flightDetails } from '../../../models/flightDetails';
 import { addPassengerDB } from 'src/models/addPassengerDB';
 import { Observable } from 'rxjs';
-import { Store } from '@ngrx/store'
-import { addPessDialog } from '../../../Dialogs/addPessDialog'
-import { updateDialog } from '../../../Dialogs/updateDialog'
+import { Store } from '@ngrx/store';
+import { AddPessDialog } from '../../../Dialogs/addPessDialog';
+import { UpdateDialog } from '../../../Dialogs/updateDialog';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { AddItem } from 'src/Dialogs/addItemDialog';
 import { addServiceDB } from 'src/models/addServiceDB';
 import { updatePassengerDB } from 'src/models/updatePessangerDB';
-
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-admin',
@@ -27,13 +28,14 @@ export class AdminComponent implements OnInit {
   name: string;
   flightSelected;
   filterSelected;
-  checkIn: any = "true";
+  checkIn: any = 'false';
   pId: any = 5;
   // Ancillary Services
   servicesList;
   mealsList;
   shoppingItemsList;
-
+  flightsLoaded = true;
+  passengerDataLoaded = true;
   visible = true;
   selectable = true;
   removable = true;
@@ -44,20 +46,22 @@ export class AdminComponent implements OnInit {
   displayedColumns: string[] = ['PNR', 'Name', 'Services', 'SeatNo', 'Address', 'EditInfo'];
   filterList = [{ label: 'Passport', checked: false },
   { label: 'Address', checked: false },
-  { label: 'DOB', checked: false }]
+  { label: 'DOB', checked: false }];
   dataSource;
-  ServicesList = ["Food", "Water", "Coke"];
+  ServicesList = ['Food', 'Water', 'Coke'];
   pData: Observable<{ passengerData }>;
 
   constructor(
     public dialog: MatDialog,
     public dialog1: MatDialog,
     private service: services,
+    private snackBar: MatSnackBar,
     private store: Store<{ PassengerData: { passengerData: addPassengerDB[] } }>
   ) { }
 
   ngOnInit() {
     this.getFlights();
+    this.flightsLoaded = false;
     this.pData = this.store.select('PassengerData');
 
   }
@@ -68,66 +72,59 @@ export class AdminComponent implements OnInit {
 
   }
   AddPDialog(): void {
-    const dialogRef = this.dialog.open(addPessDialog,
-      { width: "300px", data: {} });
+    const dialogRef = this.dialog.open(AddPessDialog,
+      { width: '300px', data: {} });
     dialogRef.afterClosed().subscribe(addPData => {
-      console.log("wheel chair data", addPData)
-      this.pId++;
-      let addPassenger = new addPassengerDB;
-      addPassenger.pName = addPData.Name;
-      addPassenger.Passport = addPData.PassportNo;
-      addPassenger.Address = addPData.Address;
-      addPassenger.fId = this.flightSelected;
-      addPassenger.Check_In_Status = this.checkIn;
-      addPassenger.PNR = addPData.PNR;
-      addPassenger.WheelChair = addPData.Wheelchair;
-      addPassenger.Infant = addPData.Infant;
-      this.service.addPassengers(addPassenger).subscribe((response) => {
-        this.getPassengersDetails(this.flightSelected);
-
-      });
-      //console.log("d" + addPData.Name);
-    })
+      if (addPData) {
+        this.pId++;
+        const addPassenger = new addPassengerDB();
+        addPassenger.pName = addPData.value.name;
+        addPassenger.Passport = addPData.value.passport;
+        addPassenger.Address = null;
+        addPassenger.fId = this.flightSelected;
+        addPassenger.Check_In_Status = this.checkIn;
+        addPassenger.PNR = addPData.value.PNR;
+        addPassenger.WheelChair = addPData.value.wheelchair;
+        addPassenger.Infant = addPData.value.infant;
+        this.service.addPassengers(addPassenger).subscribe((result) => {
+          this.getPassengersDetails(this.flightSelected);
+          this.openSnackBar('');
+        });
+      }
+    });
   }
   UpdatePDialog(event: any): void {
-    const updatePDialog = this.dialog.open(updateDialog,
+    const updatePDialog = this.dialog.open(UpdateDialog,
       {
-        width: "300px", data: {
-          "Name": event.pName, "passportNo": event.Passport,
-          "address": event.Address, "PNR": event.PNR
+        width: '300px', data: {
+          Name: event.pName, passportNo: event.Passport,
+          address: event.Address, PNR: event.PNR
         }
       });
-      updatePDialog.afterClosed().subscribe(updatePData => {
+    updatePDialog.afterClosed().subscribe(updatePData => {
       this.pId++;
-      console.log(updatePData);
-      // Object to pass in Database
-      let updatePassenger = new updatePassengerDB;
+      const updatePassenger = new updatePassengerDB();
       updatePassenger.Name = updatePData.Name;
       updatePassenger.PassportNo = updatePData.PassportNo;
       updatePassenger.Address = updatePData.Address;
       updatePassenger.PNR = event.PNR;
-
       this.service.updatePassengers(updatePassenger).subscribe((response) => {
-        //console.log("updated  Successfully & data source is");
-        //console.log(this.dataSource);
         this.getPassengersDetails(this.flightSelected);
       });
-    })
+    });
   }
   getFlights() {
     this.service.getFlights().subscribe((flightDat: any) => {
-      for (let i in flightDat.data.result) {
-        this.flightData = flightDat.data.result;
-      }
+      this.flightsLoaded = ! this.flightsLoaded;
+      this.flightData = flightDat.data.result;
     });
 
   }
   getPassengersDetails(flightId) {
+    this.passengerDataLoaded = ! this.passengerDataLoaded;
     this.service.getPassengers(flightId).subscribe((passengerDat: any) => {
-      for (let i in passengerDat.data.result) {
-        this.dataSource = passengerDat.data.result;
-      }
-      console.log(this.dataSource);
+      this.passengerDataLoaded = ! this.passengerDataLoaded;
+      this.dataSource = passengerDat.data.result;
     });
   }
   getServices(flightId) {
@@ -139,134 +136,122 @@ export class AdminComponent implements OnInit {
   }
   filter(event, item) {
 
-    if (item == 'passport') {
+    if (item === 'passport') {
 
-      if (this.passportFStatus == true) {
+      if (this.passportFStatus === true) {
         this.passportFStatus = !this.passportFStatus;
-        this.filterSelected = "NONE";
-      }
-      else {
+        this.filterSelected = 'NONE';
+      } else {
         this.passportFStatus = !this.passportFStatus;
         this.AddressFStatus = false;
         this.DOBFStatus = false;
-        this.filterSelected = "Passport";
+        this.filterSelected = 'Passport';
       }
-
-    }
-    else if (item == 'address') {
-      if (this.AddressFStatus == true) {
+    } else if (item === 'address') {
+      if (this.AddressFStatus === true) {
         this.AddressFStatus = !this.AddressFStatus;
-        this.filterSelected = "NONE";
-      }
-      else {
+        this.filterSelected = 'NONE';
+      } else {
         this.AddressFStatus = !this.AddressFStatus;
         this.DOBFStatus = false;
         this.passportFStatus = false;
-        this.filterSelected = "Address";
+        this.filterSelected = 'Address';
       }
-    }
-    else if (item == 'DOB') {
-      if (this.DOBFStatus == true) {
+    } else if (item === 'DOB') {
+      if (this.DOBFStatus === true) {
         this.DOBFStatus = !this.DOBFStatus;
-        this.filterSelected = "NONE";
-      }
-      else {
+        this.filterSelected = 'NONE';
+      } else {
         this.DOBFStatus = !this.DOBFStatus;
         this.AddressFStatus = false;
         this.passportFStatus = false;
-        this.filterSelected = "DOB";
+        this.filterSelected = 'DOB';
       }
     }
   }
   addItem(data): void {
     const category = data;
     const dialogRef = this.dialog.open(AddItem,
-      { width: "300px", data: {} });
+      { width: '300px', data: {} });
     dialogRef.afterClosed().subscribe(ItemName => {
-      if (category == 'fServices') {
-        let addService = new addServiceDB;
+      if (ItemName) {
+      if (category === 'fServices') {
+        const addService = new addServiceDB();
         addService.Service = ItemName;
         addService.fId = this.flightSelected;
-        addService.type = 'fServices'
+        addService.type = 'fServices';
         this.service.addAncillaryItems(addService).subscribe((response) => {
           this.getServices(this.flightSelected);
         });
 
-      }
-      else if (category == 'fMeals') {
-        let addService = new addServiceDB;
+      } else if (category === 'fMeals') {
+        const addService = new addServiceDB();
         addService.Service = ItemName;
         addService.fId = this.flightSelected;
-        addService.type = 'fMeals'
+        addService.type = 'fMeals';
+        this.service.addAncillaryItems(addService).subscribe((response) => {
+          this.getServices(this.flightSelected);
+        });
+      } else if (category === 'fShoppingItems') {
+        const addService = new addServiceDB();
+        addService.Service = ItemName;
+        addService.fId = this.flightSelected;
+        addService.type = 'fShoppingItems';
         this.service.addAncillaryItems(addService).subscribe((response) => {
           this.getServices(this.flightSelected);
         });
       }
-      else if(category == 'fShoppingItems'){
-        let addService = new addServiceDB;
-        addService.Service = ItemName;
-        addService.fId = this.flightSelected;
-        addService.type = 'fShoppingItems'
-        this.service.addAncillaryItems(addService).subscribe((response) => {
-          this.getServices(this.flightSelected);
-        });
-      }
-
-    })
-    // Reset the input value
-    // if (input) {
-    //   input.value = '';
-    // }
+    }
+    });
   }
-  remove(item,type): void {
+  remove(item, type): void {
     const index = this.servicesList.indexOf(item);
-    if (type == 'fServices') {
-      let addService = new addServiceDB;
+    if (type === 'fServices') {
+      const addService = new addServiceDB();
       addService.Service = item;
       addService.fId = this.flightSelected;
-      addService.type = 'fServices'
+      addService.type = 'fServices';
+      this.service.removeAncillaryItems(addService).subscribe((response) => {
+        this.getServices(this.flightSelected);
+      });
+    } else if (type === 'fMeals') {
+      const addService = new addServiceDB();
+      addService.Service = item;
+      addService.fId = this.flightSelected;
+      addService.type = 'fMeals';
+      this.service.removeAncillaryItems(addService).subscribe((response) => {
+        this.getServices(this.flightSelected);
+      });
+    } else if (type === 'fShoppingItems') {
+      const addService = new addServiceDB();
+      addService.Service = item;
+      addService.fId = this.flightSelected;
+      addService.type = 'fShoppingItems';
       this.service.removeAncillaryItems(addService).subscribe((response) => {
         this.getServices(this.flightSelected);
       });
     }
-    else if (type == 'fMeals') {
-      let addService = new addServiceDB;
-      addService.Service = item;
-      addService.fId = this.flightSelected;
-      addService.type = 'fMeals'
-      this.service.removeAncillaryItems(addService).subscribe((response) => {
-        this.getServices(this.flightSelected);
-      });
-    }
-    else if (type == 'fShoppingItems') {
-      let addService = new addServiceDB;
-      addService.Service = item;
-      addService.fId = this.flightSelected;
-      addService.type = 'fShoppingItems'
-      this.service.removeAncillaryItems(addService).subscribe((response) => {
-        this.getServices(this.flightSelected);
-      });
-    }
-
-    //console.log(":items to remove is",item,type);
-  
+  }
+  openSnackBar( action: string) {
+    this.snackBar.open('Checked-In Successfully', action, {
+      duration: 2000,
+    });
   }
 }
 
 @Pipe({ name: 'Filter' })
 export class Filter implements PipeTransform {
-  transform(data2: any, category: String): any {
+  transform(data2: any, category: string): any {
     if (!category) {
       return data2;
     }
-    if (category == 'NONE') {
+    if (category === 'NONE') {
       return data2;
     }
-    if (category == 'Passport' || category == 'Address') {
-      return data2 ? data2.filter(data => data['' + category] === "") : [];
+    if (category === 'Passport' || category === 'Address') {
+      return data2 ? data2.filter(data => data['' + category] === '') : [];
+    } else {
+      return data2 ? data2.filter(data => data['' + category] === undefined) : [];
     }
-    else
-      //console.log("category h", data2.category);
-    return data2 ? data2.filter(data => data['' + category] == undefined) : [];
   }
 }

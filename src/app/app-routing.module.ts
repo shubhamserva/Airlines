@@ -7,17 +7,17 @@ import { authGuard } from './auth/auth.guard';
 const routes: Routes = [
   {path: '', component: HomePageComponent},
   { path: 'admin',
-   canActivate:[authGuard],
+   canActivate: [authGuard],
    loadChildren: 'src/app/admin/admin.module#AdminModule' },
 
   { path: 'staff',
-  canActivate:[authGuard],
+  canActivate: [authGuard],
    loadChildren: 'src/app/staff/staff.module#StaffModule' },
-]
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
   providers: []
 })
-export class AppRoutingModule{}
+export class AppRoutingModule {}

@@ -17,6 +17,8 @@ background-size: cover;background-position: center;height: 100%;width: 99vw;" >
 
 <p style="text-align: center; color: teal" *ngIf = "flightSelected"> Please Select Flight Status: </p>
 
+<mat-spinner *ngIf = "! flightsLoaded" ></mat-spinner>
+
 <div style="text-align: center"> 
     <button mat-stroked-button style="margin-left:10px" (click) = checkIn() [disabled] = "! flightSelected">Check-In </button>
     <button mat-stroked-button style="margin-left:10px" (click) = InFlight() [disabled] = "! flightSelected" >In-Flight </button>

@@ -1,4 +1,4 @@
-import * as AuthActions from '../Actions/auth.actions'
+import * as AuthActions from '../Actions/auth.actions';
 
 export class State {
     isAuthenticated: boolean;
@@ -12,34 +12,35 @@ export class State {
 //     errorModel: undefined
 // };
 
-export function authReducer(State, action: AuthActions.AuthActions){
-        switch (action.type){
-            case AuthActions.LOGIN:{
+// tslint:disable-next-line: no-shadowed-variable
+export function authReducer(State, action: AuthActions.AuthActions) {
+        switch (action.type) {
+            case AuthActions.LOGIN: {
                 return {
                     ...State,
-                    isAuthenticated:true,
-                    userData:action.payload,
-                    errorModel:null
+                    isAuthenticated: true,
+                    userData: action.payload,
+                    errorModel: null
 
-                }
+                };
             }
-            case AuthActions.LOGOUT:{
+            case AuthActions.LOGOUT: {
                return{
                     ...State,
-                    isAuthenticated:false,
-                    userData:null,
-                    errorModel:null 
-               }
+                    isAuthenticated: false,
+                    userData: null,
+                    errorModel: null
+               };
             }
             case AuthActions.LOGINFAIL: {
                 return{
                     ...State,
-                    isAuthenticated:false,
-                    userData:null,
-                    errorModel:action.payload
-                }
+                    isAuthenticated: false,
+                    userData: null,
+                    errorModel: action.payload
+                };
             }
-            default:{
+            default: {
                 return State;
             }
         }

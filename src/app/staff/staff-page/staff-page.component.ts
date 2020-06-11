@@ -12,50 +12,46 @@ export class StaffPageComponent implements OnInit {
 
   flightData: flightDetails[] ;
   flightSelected = null;
-  flightNotSelectMsg: boolean = false;
-  
+  flightNotSelectMsg = false;
+  flightsLoaded = true;
   constructor(private service: services,
-              private router: Router,    
+              private router: Router,
     ) { }
 
   ngOnInit(): void {
     this.getFlights();
+    this.flightsLoaded =  !this.flightsLoaded ;
   }
 
-  selectedFlightInfo(event:any){
+  selectedFlightInfo(event: any) {
     this.flightSelected = event;
-    localStorage.setItem("Selected_Flight",this.flightSelected);
+    localStorage.setItem('Selected_Flight', this.flightSelected);
     this.flightNotSelectMsg = false;
-   //  this.getPassengersDetails(this.flightSelected);
   }
 
   getFlights() {
-    this.service.getFlights().subscribe((flightDat:any) => {
-      for(let i in flightDat.data.result){
-        this.flightData = flightDat.data.result;
-      }
+    this.service.getFlights().subscribe((flightDat: any) => {
+      this.flightsLoaded =  !this.flightsLoaded ;
+      this.flightData = flightDat.data.result;
     });
-
   }
 
-  checkIn(){
-    if(this.flightSelected != null){
+  checkIn() {
+    if (this.flightSelected != null) {
       this.flightNotSelectMsg = false;
       this.router.navigate(['/staff/checkIn']);
-    }
-    else {
+    } else {
       this.flightNotSelectMsg = true;
     }
-    
+
   }
-  InFlight(){
-    if(this.flightSelected != null){
+  InFlight() {
+    if (this.flightSelected != null) {
       this.flightNotSelectMsg = false;
-      this.router.navigate(['/staff/InFlight'])
-    }
-    else {
+      this.router.navigate(['/staff/InFlight']);
+    } else {
       this.flightNotSelectMsg = true;
     }
-    
+
   }
 }

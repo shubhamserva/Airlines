@@ -1,7 +1,7 @@
 <div style="display: flex; padding: 10px;">
     <h3 style="text-align: center;">Welcome to  : {{flightSeleted}}</h3>  
 
-    <h3 >Source:</h3>
+    <h3 style="margin-left: 15px;" *ngIf="flightSource">{{flightSource}} ===> {{flightDestination}}</h3>
 </div>
 
 <mat-chip-list aria-label="Fish selection">
@@ -30,6 +30,7 @@
 
     <button mat-raised-button color="primary" 
     (click) = 'confirmSeat()' 
+    [disabled]="!confirmSeatFlag"
     style="margin-left: 25px; margin-bottom: 30px;"> Confirm Seat </button>
 
    <div>

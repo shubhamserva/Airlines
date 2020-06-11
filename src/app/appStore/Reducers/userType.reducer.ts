@@ -1,7 +1,7 @@
-import * as LoginAs from '../Actions/userType.action'
+import * as LoginAs from '../Actions/userType.action';
 
 export class User {
-    type: String;
+    type: string;
 }
 
 export const initialState: User = {
@@ -13,21 +13,19 @@ export function userTypeReducer(
     action: any) {
     switch (action.type) {
         case LoginAs.ADMIN: {
-            //console.log("state updated");
             return {
                 ...state,
                 type: 'admin',
-            }
+            };
         }
         case LoginAs.STAFF: {
             return {
                 ...state,
                 type: 'staff'
-            }
+            };
         }
-        default:{
+        default: {
             return state;
         }
-
     }
 }

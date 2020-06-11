@@ -1,9 +1,10 @@
-export class addPassengerDialog{
+// tslint:disable-next-line:class-name
+export class addPassengerDialog {
     Name: string;
   PassportNo: string;
   Address: string;
-  PNR:String;
-  SeatNo:String;
-  Infant:boolean;
-  Wheelchair:boolean;
+  PNR: string;
+  SeatNo: string;
+  Infant: boolean;
+  Wheelchair: boolean;
 }

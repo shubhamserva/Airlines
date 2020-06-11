@@ -6,18 +6,17 @@ import { Store } from '@ngrx/store';
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.css']
 })
-export class HomePageComponent implements OnInit {  
-
-  loginStatus:any =  false;
+export class HomePageComponent implements OnInit {
+  loginStatus: any =  false;
   constructor(
     private store: Store<{ auth: { State: {} } }>
   ) { }
 
   ngOnInit(): void {
     this.store.select('auth').subscribe((data: any) => {
-      this.loginStatus = (data.isAuthenticated);
+      if (data) {
+        this.loginStatus = (data.isAuthenticated);
+      }
       });
   }
-  
-
 }

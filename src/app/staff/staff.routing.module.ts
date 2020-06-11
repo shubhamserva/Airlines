@@ -7,15 +7,15 @@ import { StaffPageComponent } from './staff-page/staff-page.component';
 
 
 export const routes: Routes = [
-  { path:'',
-    component:StaffPageComponent
+  { path: '',
+    component: StaffPageComponent
   },
   {
-    path:'checkIn',
-    component:CheckInComponent
+    path: 'checkIn',
+    component: CheckInComponent
   },
   {
-    path:'InFlight',
+    path: 'InFlight',
     component: InFlightComponent
   }
 ];
@@ -23,4 +23,5 @@ export const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
+// tslint:disable-next-line:class-name
 export class staffRoutingModule { }

@@ -1,48 +1,50 @@
+// tslint:disable-next-line:class-name
 export class addPassengerDB {
     fId: {
-        type: String,
-    }
+        type: string,
+    };
     pName: {
-        type: String,
+        type: string,
         required: true
-    }
+    };
     PNR: {
-        type: String,
+        type: string,
         required: true
-    }
+    };
     Infant: {
-        type: Boolean
-    }
+        type: boolean
+    };
+    // tslint:disable-next-line:variable-name
     Check_In_Status: {
-        type: String,
+        type: string,
         required: true
-    }
+    };
     WheelChair: {
-        type: Boolean,
+        type: boolean,
 
-    }
+    };
     Services: {
         type: [],
 
-    }
+    };
     SeatNo: {
-        type: String,
+        type: string,
         required: true
-    }
+    };
     Passport: {
-        type: String
-    }
+        type: string
+    };
     Address: {
-        type: String
-    }
+        type: string
+    };
     DOB: {
-        type: String
-    }
+        type: string
+    };
     ShopRequests: {
         type: []
-    }
+    };
 
-    constructor(){
-            
+    constructor() {
+
     }
 }

@@ -1,26 +1,38 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatToolbarModule, MatDividerModule, MatFormFieldModule, MatSelectModule, MatIconModule, MatButtonModule, MatCardModule } from '@angular/material'
+import {
+  MatToolbarModule,
+  MatDividerModule,
+  MatFormFieldModule,
+  MatSelectModule,
+  MatIconModule,
+  MatButtonModule,
+  MatCardModule,
+} from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { headerComponent } from './header/header.component';
-import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
-import { GoogleLoginProvider } from "angularx-social-login";
+import { SocialLoginModule, AuthServiceConfig } from 'angularx-social-login';
+import { GoogleLoginProvider } from 'angularx-social-login';
 import { authReducer } from './appStore/Reducers/auth.reducers';
 import { HomePageComponent } from './home-page/home-page.component';
 import { userTypeReducer } from './appStore/Reducers/userType.reducer';
 import { CookieService } from 'ngx-cookie-service';
 import { MatChipsModule } from '@angular/material/chips';
+import { FooterComponent } from './footer/footer.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
-let config = new AuthServiceConfig([
+const config = new AuthServiceConfig([
   {
     id: GoogleLoginProvider.PROVIDER_ID,
-    provider: new GoogleLoginProvider("859777408307-mdk1nqs77mh8f0006c0c8t2sgcjuf42v.apps.googleusercontent.com")
-  }
+    provider: new GoogleLoginProvider(
+      '859777408307-mdk1nqs77mh8f0006c0c8t2sgcjuf42v.apps.googleusercontent.com'
+    ),
+  },
 ]);
 export function provideConfig() {
   return config;
@@ -30,7 +42,8 @@ export function provideConfig() {
   declarations: [
     AppComponent,
     headerComponent,
-    HomePageComponent
+    HomePageComponent,
+    FooterComponent,
   ],
   entryComponents: [],
   imports: [
@@ -48,7 +61,9 @@ export function provideConfig() {
     MatCardModule,
     HttpClientModule,
     SocialLoginModule,
-    MatChipsModule
+    MatChipsModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
 
   providers: [
@@ -56,8 +71,8 @@ export function provideConfig() {
       provide: AuthServiceConfig,
       useFactory: provideConfig,
     },
-    CookieService
+    CookieService,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

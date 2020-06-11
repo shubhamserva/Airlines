@@ -1,10 +1,11 @@
-export class updateServiceModel{
-    PNR:{
-        type:String,
-    }
+// tslint:disable-next-line:class-name
+export class updateServiceModel {
+    PNR: {
+        type: string,
+    };
     Service: {
-        type:[],
-        }
+        type: [],
+        };
 
-    constructor(){} 
+    constructor() {}
 }
