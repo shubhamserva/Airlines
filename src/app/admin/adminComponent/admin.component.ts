@@ -13,6 +13,7 @@ import { addServiceDB } from 'src/models/addServiceDB';
 import { updatePassengerDB } from 'src/models/updatePessangerDB';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {NgForm} from '@angular/forms';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @Component({
   selector: 'app-admin',
@@ -43,7 +44,7 @@ export class AdminComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
   flightData: flightDetails[];
-  displayedColumns: string[] = ['PNR', 'Name', 'Services', 'SeatNo', 'Address', 'EditInfo'];
+  displayedColumns: string[] = ['PNR', 'Name', 'Services', 'SeatNo', 'Address', 'EditInfo', 'DOB', 'Passport'];
   filterList = [{ label: 'Passport', checked: false },
   { label: 'Address', checked: false },
   { label: 'DOB', checked: false }];
@@ -73,19 +74,20 @@ export class AdminComponent implements OnInit {
   }
   AddPDialog(): void {
     const dialogRef = this.dialog.open(AddPessDialog,
-      { width: '300px', data: {} });
+      { width: '400px', height: '400px', data: {} });
     dialogRef.afterClosed().subscribe(addPData => {
       if (addPData) {
         this.pId++;
         const addPassenger = new addPassengerDB();
         addPassenger.pName = addPData.value.name;
         addPassenger.Passport = addPData.value.passport;
-        addPassenger.Address = null;
+        addPassenger.Address = addPData.value.Address;
         addPassenger.fId = this.flightSelected;
         addPassenger.Check_In_Status = this.checkIn;
         addPassenger.PNR = addPData.value.PNR;
         addPassenger.WheelChair = addPData.value.wheelchair;
         addPassenger.Infant = addPData.value.infant;
+        addPassenger.DOB = addPData.value.DOB;
         this.service.addPassengers(addPassenger).subscribe((result) => {
           this.getPassengersDetails(this.flightSelected);
           this.openSnackBar('');
@@ -102,15 +104,18 @@ export class AdminComponent implements OnInit {
         }
       });
     updatePDialog.afterClosed().subscribe(updatePData => {
-      this.pId++;
-      const updatePassenger = new updatePassengerDB();
-      updatePassenger.Name = updatePData.Name;
-      updatePassenger.PassportNo = updatePData.PassportNo;
-      updatePassenger.Address = updatePData.Address;
-      updatePassenger.PNR = event.PNR;
-      this.service.updatePassengers(updatePassenger).subscribe((response) => {
-        this.getPassengersDetails(this.flightSelected);
-      });
+      if (updatePData) {
+        this.pId++;
+        const updatePassenger = new updatePassengerDB();
+        updatePassenger.Name = updatePData.Name;
+        updatePassenger.PassportNo = updatePData.PassportNo;
+        updatePassenger.Address = updatePData.Address;
+        updatePassenger.PNR = event.PNR;
+        this.service.updatePassengers(updatePassenger).subscribe((response) => {
+          this.getPassengersDetails(this.flightSelected);
+        });
+      }
+
     });
   }
   getFlights() {
@@ -233,7 +238,7 @@ export class AdminComponent implements OnInit {
     }
   }
   openSnackBar( action: string) {
-    this.snackBar.open('Checked-In Successfully', action, {
+    this.snackBar.open('Passenger updated Successfully', action, {
       duration: 2000,
     });
   }
@@ -244,14 +249,15 @@ export class Filter implements PipeTransform {
   transform(data2: any, category: string): any {
     if (!category) {
       return data2;
-    }
-    if (category === 'NONE') {
+    } else if (category === 'NONE') {
       return data2;
+    } else if (category === 'Passport') {
+      return data2.filter(data => data.Passport == null || data.Passport === '');
+    } else if (category === 'Address') {
+      return data2.filter(data => data.Address == null || data.Address === '');
+    } else if (category === 'DOB') {
+      return data2.filter(data => data.DOB == null || data.DOB === '');
     }
-    if (category === 'Passport' || category === 'Address') {
-      return data2 ? data2.filter(data => data['' + category] === '') : [];
-    } else {
-      return data2 ? data2.filter(data => data['' + category] === undefined) : [];
-    }
+
   }
 }

@@ -224,9 +224,15 @@ export class Filter implements PipeTransform {
     if (category === 'NONE') {
       return data2;
     } else if (category === 'NotChecked') {
-      return data2 ? data2.filter(data => data.Check_In_Status === false) : [];
-    } else {
-      return data2 ? data2.filter(data => data['' + category] === true) : [];
- }
+      return data2.filter(data => data.SeatNo === '' || !data.SeatNo) ;
+    } else if (category === 'Check_In_Status') {
+      return data2.filter(data => data.SeatNo != null) ;
+    } else if (category === 'wheelchair') {
+      return data2.filter(data => data.WheelChair === true) ;
+    } else if (category === 'Infant') {
+      return data2.filter(data => data.Infant === true) ;
+    }
+
   }
+
 }

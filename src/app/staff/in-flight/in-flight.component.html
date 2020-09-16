@@ -2,104 +2,132 @@
 
 <mat-divider style="margin: 10px;"></mat-divider> 
 
-<span style="text-align: center;margin-left: 20px;">
-  <div style="display: inline; padding: 10px;">
-      <span class="grey">
-      </span>
-      <span style="margin-bottom: 6px;">
-       Occupied Seat
-      </span> 
-   </div>
+<mat-tab-group mat-align-tabs="center">
+  <mat-tab label="Service List"> 
 
-   <div style="display: inline; padding: 10px;">
-       <span class="red">
-       </span>
-       <span style="margin-bottom: 6px;">
-        Available Seat
-       </span> 
+    <div class="table" style="padding:10px ; width: 97%">
+      <table mat-table  [dataSource]="dataSource" class="mat-elevation-z8 " >
+  
+        <!-- PNR Column -->   
+        <ng-container matColumnDef="PNR">
+          <th mat-header-cell *matHeaderCellDef style="text-align: center;"> PNR </th>
+          <td mat-cell *matCellDef="let element" style="width: 10%;"> {{element.PNR}} </td>
+        </ng-container>
+  
+        <!-- Meal Column -->  
+        <ng-container matColumnDef="MealPrefrence">
+          <th mat-header-cell *matHeaderCellDef style="text-align: center;"> Meals </th>
+          <td mat-cell *matCellDef="let element" > {{element.food}} </td>
+        </ng-container>
+  
+        <!-- Service Column -->
+        <ng-container matColumnDef="Services">
+          <th mat-header-cell *matHeaderCellDef style="text-align: center;"> Services </th>
+          <td mat-cell *matCellDef="let element" > {{element.Services}} </td>
+        </ng-container>
+  
+        <!-- Seat No Column -->
+        <ng-container matColumnDef="SeatNo">
+          <th mat-header-cell *matHeaderCellDef style="text-align: center;" > SeatNo. </th>
+          <td mat-cell *matCellDef="let element"> {{element.SeatNo}} </td>
+        </ng-container>
+  
+        <!-- Seat No Column -->
+        <ng-container matColumnDef="ShopRequests" >
+          <th mat-header-cell *matHeaderCellDef style="text-align: center;"> Shop </th>
+          <td mat-cell *matCellDef="let element"  style=" overflow-wrap: anywhere; width: 15%; text-align: center;"> {{element.ShopRequests}} </td>
+        </ng-container>
+  
+        <!-- Update Button Column -->
+        <ng-container matColumnDef="changeMeal">
+          <th mat-header-cell *matHeaderCellDef style="text-align: center;"> Change Meal </th>
+          <td mat-cell *matCellDef="let row"> 
+            <mat-form-field appearance="fill">
+              <mat-label>Meals</mat-label>
+              <mat-select  (selectionChange) = "changeMeal($event,row)">
+                <mat-option></mat-option>
+                <mat-option [value]="option" *ngFor="let option of mealsList">{{ option }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+        </ng-container>
+  
+          
+        <ng-container matColumnDef="Add_ShopRequests">  
+          <th mat-header-cell *matHeaderCellDef style="margin-left: 4px;">Shop Items </th>
+          <td mat-cell *matCellDef="let row"> 
+            <mat-form-field appearance="fill">
+              <mat-label>Items</mat-label>
+              <mat-select (selectionChange) = "addShopItem($event,row)">
+                <mat-option></mat-option>
+                <mat-option [value]="option" *ngFor="let option of shoppingItemsList">{{ option }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+        </ng-container>
+  
+        <ng-container matColumnDef="updateServices">  
+          <th mat-header-cell *matHeaderCellDef style="margin-left: 4px;">Add Services </th>
+          <td mat-cell *matCellDef="let row"> 
+            <mat-form-field appearance="fill">
+              <mat-label>Services</mat-label>
+              <mat-select (selectionChange) = "addServices($event,row)">
+                <mat-option></mat-option>
+                <mat-option [value]="option" *ngFor="let option of servicesList">{{ option }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+  
     </div>
+  </mat-tab>
+  <mat-tab label="Seat-Plan">
 
-    <div style="display: inline; padding: 10px;">
-       <span class="yellow">
-       </span>
-       <span style="margin-bottom: 6px;">
-        Special Meals
-       </span> 
+    <span style="text-align: center;">
+      <div style="display: inline; padding: 10px; margin:15px">
+          <span class="grey">
+          </span>
+          <span style="margin-bottom: 6px;">
+           Occupied Seat
+          </span> 
+       </div>
+    
+       <div style="display: inline; padding: 10px;">
+           <span class="red">
+           </span>
+           <span style="margin-bottom: 6px;">
+            Available Seat
+           </span> 
+        </div>
+    
+        <div style="display: inline; padding: 10px;">
+           <span class="yellow">
+           </span>
+           <span style="margin-bottom: 6px;">
+            Special Meals
+           </span> 
+        </div>
+    </span>
+
+    <div class="Mobile">
+      <div class="seatBox"> 
+        <div    
+         *ngFor="let RowNo of seats; let i=index" 
+    
+        [ngClass] = "{
+            'dot' :RowNo.Status,
+            'dotSelected':!RowNo.Status,
+            'dotYellow': RowNo.infant}" 
+        style="padding: 4px; margin: 2px;" >   
+            <p>{{RowNo.No}} </p>
+        </div>
     </div>
-</span>
-
-<mat-divider style="margin: 10px;"></mat-divider> 
-<div class="Mobile">
-
-<div class="table">
-    <table mat-table  [dataSource]="dataSource" class="mat-elevation-z8 " >
-
-      <!-- PNR Column -->   
-      <ng-container matColumnDef="PNR">
-        <th mat-header-cell *matHeaderCellDef> PNR </th>
-        <td mat-cell *matCellDef="let element" style="width: 14%;"> {{element.PNR}} </td>
-      </ng-container>
-
-      <!-- Meal Column -->  
-      <ng-container matColumnDef="MealPrefrence">
-        <th mat-header-cell *matHeaderCellDef> Meals </th>
-        <td mat-cell *matCellDef="let element" > {{element.food}} </td>
-      </ng-container>
-
-      <!-- Service Column -->
-      <ng-container matColumnDef="Services">
-        <th mat-header-cell *matHeaderCellDef> Services </th>
-        <td mat-cell *matCellDef="let element" > {{element.Services}} </td>
-      </ng-container>
-
-      <!-- Seat No Column -->
-      <ng-container matColumnDef="SeatNo">
-        <th mat-header-cell *matHeaderCellDef> SeatNo. </th>
-        <td mat-cell *matCellDef="let element"> {{element.SeatNo}} </td>
-      </ng-container>
-
-      <!-- Seat No Column -->
-      <ng-container matColumnDef="ShopRequests" >
-        <th mat-header-cell *matHeaderCellDef> Shop </th>
-        <td mat-cell *matCellDef="let element"  style=" overflow-wrap: anywhere; width: 15%;"> {{element.ShopRequests}} </td>
-      </ng-container>
-
-      <!-- Update Button Column -->
-      <ng-container matColumnDef="changeMeal">
-        <th mat-header-cell *matHeaderCellDef> Change Meal </th>
-        <td mat-cell *matCellDef="let row"> 
-          <button (click)="changeMeal(row)" >Update</button></td>
-      </ng-container>
-
-      <ng-container matColumnDef="Add_ShopRequests">
-        <th mat-header-cell *matHeaderCellDef > Add Shop Item </th>
-        <td mat-cell *matCellDef="let row">
-           <button (click)="addShopItem(row)" >Add Item</button></td>
-      </ng-container>
-
-      <ng-container matColumnDef="updateServices">  
-        <th mat-header-cell *matHeaderCellDef style="margin-left: 4px;">Add Services </th>
-        <td mat-cell *matCellDef="let row"> 
-          <button (click)="addServices(row)" >Add Services</button></td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-
-  </div>
-
-  <div class="seatBox"> 
-    <div    
-     *ngFor="let RowNo of seats; let i=index" 
-
-    [ngClass] = "{
-        'dot' :RowNo.Status,
-        'dotSelected':!RowNo.Status,
-        'dotYellow': RowNo.infant}" 
-    style="padding: 4px; margin: 2px;" >   
-        <p>{{RowNo.No}} </p>
     </div>
-</div>
+    
+  </mat-tab>
+  </mat-tab-group>
 
-</div>
+
+
+

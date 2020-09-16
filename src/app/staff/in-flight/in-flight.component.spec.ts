@@ -31,13 +31,26 @@ class MockService {
     });
   }
   addServies() {
-    return of({});
+    return of({}, {});
+  }
+  getServices() {
+    return of({
+      data: {
+        result: [
+          {
+            fServices: 'string',
+            fMeals: 'string',
+            fShoppingItems: 'string',
+          },
+        ],
+      },
+    });
   }
   updateMeal() {
-    return of({});
+    return of({}, {});
   }
   addShoppingItem() {
-    return of({});
+    return of({}, {});
   }
 }
 
@@ -79,12 +92,12 @@ describe('InFlightComponent', () => {
     component.getPassengersDetails('');
   });
   it('check addShopItem method', () => {
-    component.addShopItem('');
+    component.addShopItem('', '');
   });
   it('check addServices method', () => {
-    component.addServices('');
+    component.addServices('', '');
   });
   it('check change meal method', () => {
-    component.changeMeal('');
+    component.changeMeal('', '');
   });
 });

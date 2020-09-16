@@ -1,52 +1,74 @@
-<form novalidate [formGroup]="passengerForm"  >
-<h1 mat-dialog-title>Add Passenger</h1>
-<div mat-dialog-content>
-  <p style="margin: 6px;">Passenger Name</p>
-  <mat-form-field>
-    <mat-label>Name</mat-label>
-    <input matInput  name="UserName"  formControlName="name" required>
-  </mat-form-field>
-</div>
-<div mat-dialog-content>
-    <p  style="margin: 6px;" >Passport Details</p>
-    <mat-form-field>
-      <mat-label>Enter Passport No.</mat-label>
-      <input matInput  name="PassportNo"  formControlName="passport"
-      required maxlength="6" minlength="1">
-    </mat-form-field>
-  </div>
-  <div mat-dialog-content>
-    <p  style="margin: 6px;" >Enter PNR</p>
-    <mat-form-field>  
-      <mat-label>Write PNR here</mat-label>
-      <input matInput  name="PNR"  formControlName="PNR"
-      required maxlength="6" minlength="1">
-    </mat-form-field>
-  </div>
-  <div mat-dialog-content>  
-    <p  style="margin: 6px;" >Infants</p>
-      <mat-radio-group matInput 
-      formControlName="infant" required
-      >
-        <mat-radio-button  value="true"> Yes</mat-radio-button>
-        <mat-radio-button  value="false"> No </mat-radio-button>
-      </mat-radio-group>
-  </div>
-  <div mat-dialog-content>  
-    <p>Require Wheelchair</p>
-      <mat-radio-group matInput
-      formControlName="wheelchair" required
-      >
-        <mat-radio-button value="true"> Yes </mat-radio-button>
-        <mat-radio-button value="false"> No </mat-radio-button>
+<div width="100%" >
+  <form novalidate [formGroup]="passengerForm" style="padding:0px ; margin:0px">
+    <h1 mat-dialog-title >Add Passenger</h1>
+    <div mat-dialog-content style="width: 100%">
+      <p style="margin: 6px;">Passenger Name</p>
+      <mat-form-field style="width: 100% ">
+        <mat-label>Name</mat-label>
+        <input matInput  name="UserName" 
+         formControlName="name" required>
+      </mat-form-field>
+    </div>
+    <div mat-dialog-content style="width: 100% ">
+        <p  style="margin: 6px;" >Passport Details</p>
+        <mat-form-field style="width: 100% ">
+          <mat-label>Enter Passport No.</mat-label>
+          <input matInput  name="PassportNo"  formControlName="passport"
+          required maxlength="6" minlength="1">
+        </mat-form-field>
+      </div>
+      <div mat-dialog-content style="width: 100% ">
+        <p  style="margin: 6px;" >Enter PNR</p>
+        <mat-form-field style="width: 100% ">  
+          <mat-label>Write PNR here</mat-label>
+          <input matInput  name="PNR"  formControlName="PNR"
+          required maxlength="6" minlength="1">
+        </mat-form-field>
+      </div>
 
-     </mat-radio-group>
-  </div>
+      <div mat-dialog-content style="width: 100% ">
+        <p  style="margin: 6px;" >Enter DOB</p>
+        <mat-form-field style="width: 100% ">  
+          <input matInput  name="DOB" type="date" formControlName="DOB">
+        </mat-form-field>
+      </div>
 
-<div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="passengerForm" type='submit'
-  cdkFocusInitial [disabled]="!passengerForm.valid"
-  >Ok</button>
+      <div mat-dialog-content style="width: 100% ">
+        <p  style="margin: 6px;" >Enter Address</p>
+        <mat-form-field style="width: 100% ">  
+          <mat-label>Write Address here</mat-label>
+          <input matInput  name="Address"  formControlName="Address">
+        </mat-form-field>
+      </div>
+
+      <div style="display: flex ; width: 100%">
+        <span mat-dialog-content style="padding:4px; margin-left: 5px; margin-right: 0px">  
+          <p>Infants</p>
+            <mat-radio-group matInput 
+            formControlName="infant" style="width: 50% "
+            required>
+              <mat-radio-button  value="true" style="margin-right: 4px"> Yes</mat-radio-button>
+              <mat-radio-button  value="false"> No </mat-radio-button>
+            </mat-radio-group>
+          </span>
+        <span mat-dialog-content style="padding:8px ; margin-left: 30px;">  
+          <p>Require Wheelchair</p>
+            <mat-radio-group matInput
+            formControlName="wheelchair" required style="width: 50% "
+            >
+              <mat-radio-button value="true" style="margin-right: 4px"> Yes </mat-radio-button>
+              <mat-radio-button value="false"> No </mat-radio-button>
+           </mat-radio-group>
+          </span>
+      </div>
+      
+    
+    <div mat-dialog-actions>
+      <button mat-button (click)="onNoClick()">No Thanks</button>
+      <button mat-button [mat-dialog-close]="passengerForm" type='submit'
+      cdkFocusInitial [disabled]="!passengerForm.valid"
+      >Ok</button>
+    </div>
+    </form>
 </div>
-</form>
+

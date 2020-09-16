@@ -6,7 +6,7 @@ import { staffRoutingModule } from './staff.routing.module';
 import {MatToolbarModule, MatDividerModule, MatFormFieldModule, MatSelectModule,
   MatIconModule, MatButtonModule, MatCheckboxModule,
   MatTableModule, MatGridListModule, MatDialogModule,
-  MatListModule, MatInputModule, MatCardModule, MatFormField} from '@angular/material';
+  MatListModule, MatInputModule, MatCardModule, MatFormField, MatTabsModule} from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { StaffPageComponent } from './staff-page/staff-page.component';
 import { AddShopItem } from 'src/Dialogs/AddShopItemDialog';
@@ -40,7 +40,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatListModule,
     MatChipsModule,
     MatSnackBarModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatTabsModule
   ]
 })
 export class StaffModule { }

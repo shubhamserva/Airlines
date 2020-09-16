@@ -27,12 +27,21 @@ export class InFlightComponent implements OnInit {
     'updateServices',
   ];
   dataSource;
+  servicesList;
+  mealsList;
+  shoppingItemsList;
+  selectedMeal;
+  selectedShoppingItem;
+  selectedService;
+
   seats: any = seat;
   constructor(private service: services, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.flightSeleted = localStorage.getItem('Selected_Flight');
     this.getPassengersDetails(this.flightSeleted);
+    this.getServices(this.flightSeleted);
+
   }
 
   getPassengersDetails(flightId) {
@@ -50,64 +59,44 @@ export class InFlightComponent implements OnInit {
       }
     });
   }
-  addShopItem(event: any) {
-    this.dialog
-      .open(AddShopItem, { width: '300px', data: {} })
-      .afterClosed()
-      .subscribe((shopItem) => {
-        if (shopItem) {
+  getServices(flightId) {
+    this.service.getServices(flightId).subscribe((serviceData: any) => {
+      this.servicesList = serviceData.data.result[0].fServices;
+      this.mealsList = serviceData.data.result[0].fMeals;
+      this.shoppingItemsList = serviceData.data.result[0].fShoppingItems;
+    });
+  }
+  changeMeal(mealData, rowNo) {
+
+    if (mealData) {
+      // tslint:disable-next-line:no-shadowed-variable
+       const updateMeal = new updateMealDB();
+       updateMeal.Meal =  mealData.value;
+       updateMeal.PNR = rowNo.PNR;
+       this.service.updateMeal(updateMeal).subscribe((response) => {
+         this.getPassengersDetails(this.flightSeleted);
+      });
+    }
+  }
+  addShopItem(event: any, rowNo) {
+        if (rowNo) {
           const addshopItemDB = new addShopItem();
-          addshopItemDB.ShoppingItem = shopItem.Name;
-          addshopItemDB.PNR = event.PNR;
+          addshopItemDB.ShoppingItem = event.value;
+          addshopItemDB.PNR = rowNo.PNR;
 
           this.service.addShoppingItem(addshopItemDB).subscribe((response) => {
             this.getPassengersDetails(this.flightSeleted);
           });
-          setTimeout(() => {
-            this.getPassengersDetails(this.flightSeleted);
-          }, 4000);
         }
-      });
   }
-  addServices(event) {
-    this.dialog
-      .open(UpdateService, {
-        width: '300px',
-        data: {
-          services: event.services,
-        },
-      })
-      .afterClosed()
-      .subscribe((serviceDialog) => {
-        if (serviceDialog) {
-          const addserviceDB = new addService();
-          addserviceDB.ServiceName = serviceDialog.Services;
-          addserviceDB.PNR = event.PNR;
-          this.service.addServies(addserviceDB).subscribe((response) => {
+  addServices(event, rowNo) {
+    if (rowNo) {
+      const addserviceDB = new addService();
+      addserviceDB.ServiceName = event.value;
+      addserviceDB.PNR = rowNo.PNR;
+      this.service.addServies(addserviceDB).subscribe((response) => {
             this.getPassengersDetails(this.flightSeleted);
           });
         }
-      });
-  }
-  changeMeal(event: any) {
-    this.dialog
-      .open(UpdateMeal, {
-        width: '300px',
-        data: {
-          services: event.Services,
-        },
-      })
-      .afterClosed()
-      .subscribe((mealData) => {
-        if (mealData) {
-          // tslint:disable-next-line:no-shadowed-variable
-          const updateMeal = new updateMealDB();
-          updateMeal.Meal = mealData;
-          updateMeal.PNR = event.PNR;
-          this.service.updateMeal(updateMeal).subscribe((response) => {
-            this.getPassengersDetails(this.flightSeleted);
-          });
-        }
-      });
   }
 }

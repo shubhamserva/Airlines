@@ -19,7 +19,9 @@ import { FormGroup, FormControl } from '@angular/forms';
         PNR: new FormControl(''),
         passport: new FormControl(''),
         infant: new FormControl(''),
-        wheelchair: new FormControl('')
+        wheelchair: new FormControl(''),
+        DOB: new FormControl(''),
+        Address: new FormControl()
       });
 
 
