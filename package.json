@@ -32,7 +32,7 @@
     "html-linter": "^1.1.1",
     "ng-gapi": "0.0.91",
     "ngx-cookie-service": "^3.0.4",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "rxjs": "~6.5.5",
     "ts-lint": "^4.5.1",
     "tslib": "^1.10.0",
